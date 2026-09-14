@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Landing Pages") }}{% endblock %}
+{% from "_macros.html" import durpill with context %}
+
+{% block body %}
+{% set nav_active = 'landing' %}
+{% include "_masthead.html" %}
+
+<main class="wrap">
+  <div class="page-head">
+    <div class="kick">{{ _("Aggregation") }}</div>
+    <h1>{{ _("Landing pages") }}</h1>
+    <div class="note">{{ _("The same ads grouped by landing page.") }}</div>
+  </div>
+
+  <form class="filters" method="GET" action="/landing-pages" style="margin-top:30px">
+    <div class="filt">
+      <span class="l">{{ _("Company") }}</span>
+      {% with choices=company_choices, ms_name="company", ms_submit=True %}{% include "_company_filter.html" %}{% endwith %}
+    </div>
+    <div class="filt">
+      <span class="l">{{ _("Sort") }}</span>
+      <span class="selectish">
+        <select name="sort" onchange="this.form.submit()">
+          <option value="ads"{% if sort == 'ads' %} selected{% endif %}>{{ _("Most ads") }}</option>
+          <option value="duration"{% if sort == 'duration' %} selected{% endif %}>{{ _("Longest running") }}</option>
+        </select>
+        <svg class="icon"><use href="#i-down"/></svg>
+      </span>
+    </div>
+    <div class="filt" style="margin-left:auto"><span class="l">{{ ngettext("%(num)s page", "%(num)s pages", rows|length) }}</span></div>
+    <a class="exportbtn" href="/landing-pages.csv?{% for c in company_choices if c.checked %}company={{ c.value }}&amp;{% endfor %}sort={{ sort|urlencode }}" title="{{ _('Download these landing pages as a spreadsheet') }}"><svg class="icon" style="width:14px;height:14px"><use href="#i-download"/></svg> {{ _("Export CSV") }}</a>
+  </form>
+
+  {% if rows %}
+  <div class="lpgrid">
+    {% for r in rows %}
+    <a class="lpcard" href="/landing-pages/{{ r.landing_page_id }}">
+      <div class="cr">
+        {% if r.hero_image_url %}<img src="{{ r.hero_image_url }}" loading="lazy" alt="" data-ph="{{ (r.company_name or '?')[:2]|upper }}">{% else %}<div class="ph">{{ (r.company_name or '?')[:2]|upper }}</div>{% endif %}
+      </div>
+      <div class="body">
+        <div class="co">{{ r.company_name }}</div>
+        {% if r.headline %}
+          <h3>{{ r.headline }}</h3>
+        {% else %}
+          <h3 class="untitled">{{ r.display_url }}</h3>
+        {% endif %}
+        {% if r.description %}<p class="desc">{{ r.description }}</p>{% endif %}
+        <span class="u" title="{{ r.url_canonical }}">{{ r.display_url }}</span>
+        <div class="badges">
+          <span class="lpbadge">{{ ngettext("%(num)s ad", "%(num)s ads", r.ad_count) }}</span>
+          {% if r.max_duration_days %}{{ durpill(r.max_duration_days) }}{% endif %}
+          {% if r.currently_active %}<span class="state on">{{ _("Active") }}</span>{% endif %}
+          {% if not r.headline %}
+            {% if r.resolution_status == 'fetch_failed' %}<span class="lpbadge">{{ _("Page unreachable") }}</span>
+            {% elif not r.resolution_status %}<span class="lpbadge">{{ _("Title pending") }}</span>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <h3>{{ _("No landing pages yet") }}</h3>
+    <p>{{ _("They appear once the worker collects ads that carry a destination link. Linking runs on every collection.") }}</p>
+  </div>
+  {% endif %}
+</main>
+<script src="{{ static_url('js/multiselect.js') }}" defer></script>
+{% endblock %}

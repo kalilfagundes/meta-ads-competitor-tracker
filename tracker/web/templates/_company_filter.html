@@ -1,0 +1,20 @@
+{# The Company filter (Ads, Landing pages): a dropdown of checkboxes, one per
+   company, driven by static/js/multiselect.js. Needs `choices`: [{value, name,
+   checked}]. Optional: `ms_id`; `ms_name`, the checkboxes' name in a form; and
+   `ms_submit`, to submit that form when the dropdown closes with a new pick. #}
+{%- set ticked = choices|selectattr("checked")|list -%}
+<details class="multisel" data-multisel{% if ms_id %} id="{{ ms_id }}"{% endif %}{% if ms_submit %} data-submit{% endif %}>
+  <summary class="selectish"><span data-ms-label>
+    {%- if not ticked %}{{ _("All") }}{% elif ticked|length == 1 %}{{ ticked[0].name }}{% else %}{{ ngettext("%(num)s company", "%(num)s companies", ticked|length) }}{% endif -%}
+  </span><svg class="icon"><use href="#i-down"/></svg></summary>
+  <div class="ms-panel">
+    {%- for c in choices %}
+    <label class="ms-opt"><input type="checkbox"{% if ms_name %} name="{{ ms_name }}"{% endif %} value="{{ c.value }}"{% if c.checked %} checked{% endif %}><span>{{ c.name }}</span></label>
+    {%- else %}
+    <p class="ms-empty">{{ _("No companies yet.") }}</p>
+    {%- endfor %}
+    {%- if choices %}
+    <button class="ms-all" type="button" data-ms-all>{{ _("All companies") }}</button>
+    {%- endif %}
+  </div>
+</details>

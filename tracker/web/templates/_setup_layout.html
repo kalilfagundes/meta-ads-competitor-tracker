@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{# First-run wizard shell: steps on the dark aside, the current step's card on the
+   right. Child templates set `step` (1-4) and fill the `card` block. #}
+{% block title %}{{ _("First run") }}{% endblock %}
+{% block body %}
+{% set steps = [_("Language"), _("Administrator"), _("First competitor"), _("Collection")] %}
+<section class="login">
+  <aside class="login-aside">
+    <div class="login-lead">
+      <div class="kicker">{{ _("First run") }}</div>
+      <h1>{{ _("Set up your <em>tracker</em>.") }}</h1>
+      <ol class="wsteps">
+        {% for label in steps %}
+        <li class="{% if loop.index == step %}on{% elif loop.index < step %}done{% endif %}"{% if loop.index == step %} aria-current="step"{% endif %}>{{ label }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="login-foot"><span>{{ _("Open source") }}</span><span>{{ _("Self-hosted") }}</span></div>
+  </aside>
+  <main class="login-main">
+    <div class="login-card">
+      <div class="wkick">{{ _("Step %(step)s of %(total)s", step=step, total=steps|length) }} · {{ steps[step - 1] }}</div>
+      {% block card %}{% endblock %}
+    </div>
+  </main>
+</section>
+{% endblock %}

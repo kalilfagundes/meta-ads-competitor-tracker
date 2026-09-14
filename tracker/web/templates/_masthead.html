@@ -1,0 +1,20 @@
+{# Editorial masthead nav (not a sidebar). Set `nav_active` to one of
+   'ads' | 'landing' | 'admin' and, optionally, `show_search = true`. #}
+<header class="masthead">
+  <div class="wrap bar">
+    <nav class="nav">
+      <a href="/"{% if nav_active == 'ads' %} class="on"{% endif %}>{{ _("Ads") }}</a>
+      <a href="/landing-pages"{% if nav_active == 'landing' %} class="on"{% endif %}>{{ _("Landing Pages") }}</a>
+      <a href="/admin"{% if nav_active == 'admin' %} class="on"{% endif %}>{{ _("Settings") }}</a>
+    </nav>
+    <div class="right">
+      {% if show_search %}
+      <div class="search">
+        <svg class="icon" style="width:16px;height:16px"><use href="#i-search"/></svg>
+        <input id="q" type="search" placeholder="{{ _('Search copy, companies…') }}" autocomplete="off">
+      </div>
+      {% endif %}
+      <a class="signout" href="/logout">{{ _("Sign out") }}</a>
+    </div>
+  </div>
+</header>

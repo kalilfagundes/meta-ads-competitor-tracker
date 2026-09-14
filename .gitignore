@@ -1,0 +1,29 @@
+# ── Secrets / local config ────────────────────────────────────────────
+.env
+.env.local
+*.dev.vars
+!*.dev.vars.example
+
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Local data / generated ────────────────────────────────────────────
+*.xlsx
+*.db
+*.sqlite
+data/
+postgres-data/
+
+# ── Local planning notes (not part of the public repo) ────────────────
+.scratch/
+
+# ── OS ────────────────────────────────────────────────────────────────
+Thumbs.db
+.DS_Store
