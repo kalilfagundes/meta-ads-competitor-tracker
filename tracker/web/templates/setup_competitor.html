@@ -1,0 +1,23 @@
+{% extends "_setup_layout.html" %}
+{% set step = 3 %}
+{% block card %}
+<form method="POST" action="/setup/competitor">
+  <h2>{{ _("Track your first competitor") }}</h2>
+  <div class="sub">{{ _("Add one Facebook page now. You can add more competitors in Settings.") }}</div>
+  {% if error %}<div class="form-error">{{ _(error) }}</div>{% endif %}
+  {% if pages %}
+  <div class="hint" style="margin:-14px 0 18px">{{ _("Already added:") }} {% for p in pages %}<b>{{ p.company_name }}</b> ({{ p.page_id }}){% if not loop.last %}, {% endif %}{% endfor %}</div>
+  {% endif %}
+  <div class="field">
+    <label for="t-company">{{ _("Company name") }}</label>
+    <input id="t-company" name="company" value="{{ company }}" placeholder="{{ _('e.g. Acme Inc.') }}" autocomplete="off" autofocus>
+  </div>
+  <div class="field">
+    <label for="t-page">{{ _("Facebook page ID") }}</label>
+    <input id="t-page" name="page_id" value="{{ page_id }}" inputmode="numeric" placeholder="123456789012345" autocomplete="off">
+    {% include "_page_id_help.html" %}
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">{{ _("Continue") }} <svg class="icon"><use href="#i-arrow"/></svg></button>
+</form>
+<div class="login-alt"><a class="linkbtn" href="/setup/collection">{{ _("Skip for now") }}</a></div>
+{% endblock %}

@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Settings") }}{% endblock %}
+{% block body %}
+{% set nav_active = 'admin' %}
+{% include "_masthead.html" %}
+
+<main class="wrap">
+  <div class="page-head">
+    <div class="kick">{{ _("Instance") }}</div>
+    <h1>{{ _("Settings") }}</h1>
+  </div>
+
+  {% if err %}<div class="form-error" style="margin-top:22px">{{ _(err) }}{% if err_detail %}: {{ err_detail }}{% endif %}</div>{% endif %}
+
+  <div class="stack">
+    {# ── Collection runs (painted and refreshed by static/js/admin.js) ── #}
+    <section class="panel">
+      <div class="panel-head">
+        <div class="lede">
+          <div class="kick">{{ _("Pipeline") }}</div>
+          <h2>{{ _("Collection") }}</h2>
+        </div>
+        <form method="POST" action="/admin/collect-now" id="collect-form">
+          <button class="btn btn-primary btn-sm" type="submit" id="collect-btn">
+            <svg class="icon" style="width:15px;height:15px"><use href="#i-refresh"/></svg>
+            <span id="collect-lbl">{{ _("Collect now") }}</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="runstatus" id="runstatus" data-state="idle" aria-live="polite">
+        <div class="rs-line">
+          <span class="rs-dot"></span>
+          <span class="rs-title" id="rs-title"></span>
+          <span class="rs-meta" id="rs-meta"></span>
+        </div>
+        <div class="rs-bar" id="rs-bar" hidden><i></i></div>
+        <div class="rs-sub" id="rs-sub"></div>
+      </div>
+
+      <table class="adtable" style="margin-top:16px">
+        <thead><tr><th>{{ _("Started") }}</th><th>{{ _("Trigger") }}</th><th>{{ _("Status") }}</th><th>{{ _("Pages") }}</th><th>{{ _("Ads") }}</th><th>{{ _("New ads") }}</th><th>{{ _("Took") }}</th><th title="{{ _('What Apify charged for the run') }}">{{ _("Cost") }}</th></tr></thead>
+        <tbody id="runs-body"></tbody>
+      </table>
+    </section>
+
+    {# ── Companies & pages ────────────────────────────────────── #}
+    <section class="panel">
+      <div class="panel-head">
+        <div class="lede">
+          <div class="kick">{{ _("Targets") }}</div>
+          <h2>{{ _("Companies & pages") }}</h2>
+        </div>
+      </div>
+      {% set default_country = settings.collect_country %}
+      {% set default_label = _("Default country (%(country)s)", country=default_country) %}
+      <div class="panel-note">{{ _("Each company groups one or more Facebook pages. Re-adding a page ID moves it under this company (that's how you unify pages).") }}</div>
+      <div class="panel-note" style="margin-top:6px">{{ _("Each page is collected in the default country, unless you give it its own: useful to follow competitors in several countries.") }}</div>
+      <div class="panel-note" style="margin-top:8px">{% include "_page_id_help.html" %}</div>
+
+      <div style="margin-top:18px">
+      {% for c in companies %}
+        <div class="coblock">
+          <div class="coh" id="co-{{ c.id }}-view">
+            <span class="cn">{{ c.name }}{% if c.domain %} <span class="dom">· {{ c.domain }}</span>{% endif %}</span>
+            <div class="coact">
+              <button class="btn btn-ghost btn-sm" type="button" data-edit="co-{{ c.id }}"><svg class="icon" style="width:14px;height:14px"><use href="#i-pencil"/></svg> {{ _("Edit") }}</button>
+              <form method="POST" action="/admin/companies/{{ c.id }}/delete" data-confirm="{{ _('Delete %(company)s and its pages?', company=c.name) }}">
+                <button class="btn btn-ghost btn-sm danger" type="submit"><svg class="icon" style="width:14px;height:14px"><use href="#i-trash"/></svg> {{ _("Delete") }}</button>
+              </form>
+            </div>
+          </div>
+          <form method="POST" action="/admin/companies/{{ c.id }}/edit" class="formrow coedit" id="co-{{ c.id }}-edit" hidden>
+            <div class="fld"><label class="flabel">{{ _("Company name") }}</label><input class="inp" name="name" value="{{ c.name }}" required></div>
+            <div class="fld"><label class="flabel">{{ _("Domain (optional)") }}</label><input class="inp" name="domain" value="{{ c.domain or '' }}" placeholder="example.com"></div>
+            <button class="btn btn-primary btn-sm" type="submit">{{ _("Save") }}</button>
+            <button class="btn btn-ghost btn-sm" type="button" data-cancel="co-{{ c.id }}">{{ _("Cancel") }}</button>
+          </form>
+          <table class="adtable">
+            <thead><tr><th>{{ _("Page ID") }}</th><th>{{ _("Name") }}</th><th>{{ _("Country") }}</th><th>{{ _("Tracking") }}</th><th></th></tr></thead>
+            <tbody>
+            {% for p in c.pages %}
+              <tr id="pg-{{ p.id }}-view">
+                <td class="mono">{{ p.page_id }}</td>
+                <td><span class="pgname">{% set ini = (p.page_name or c.name or "?")[:2]|upper %}<span class="tav">{% if p.avatar_url %}<img src="{{ p.avatar_url }}" alt="" loading="lazy" data-ph="{{ ini }}">{% else %}<span class="ph">{{ ini }}</span>{% endif %}</span>{{ p.page_name or '—' }}</span></td>
+                <td>{% if p.collect_country %}<span title="{{ country_names.get(p.collect_country, p.collect_country) }}">{{ p.collect_country }}</span>{% else %}<span class="muted" title="{{ default_label }}">{{ _("Default") }} · {{ default_country }}</span>{% endif %}</td>
+                <td>
+                  <form method="POST" action="/admin/pages/{{ p.id }}/toggle">
+                    <button class="togglebtn" type="submit" title="{{ _('Toggle tracking') }}">
+                      {% if p.is_tracked %}<span class="state on">{{ _("Tracked") }}</span>{% else %}<span class="state off">{{ _("Paused") }}</span>{% endif %}
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <div class="rowact">
+                    <button class="btn-x neutral" type="button" data-edit="pg-{{ p.id }}" aria-label="{{ _('Edit page') }}" title="{{ _('Edit page') }}"><svg class="icon" style="width:14px;height:14px"><use href="#i-pencil"/></svg></button>
+                    <form method="POST" action="/admin/pages/{{ p.id }}/delete" data-confirm="{{ _('Delete this page?') }}">
+                      <button class="btn-x" type="submit" aria-label="{{ _('Delete page') }}" title="{{ _('Delete page') }}"><svg class="icon" style="width:15px;height:15px"><use href="#i-x"/></svg></button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <tr class="editrow" id="pg-{{ p.id }}-edit" hidden>
+                <td colspan="5">
+                  <form method="POST" action="/admin/pages/{{ p.id }}/edit" class="formrow">
+                    {% if p.has_ads %}
+                    <div class="fld"><label class="flabel">{{ _("Facebook page ID (locked: this page has ads)") }}</label><input class="inp" name="page_id" value="{{ p.page_id }}" readonly title="{{ _('This page already has ads. Add a new ID as a separate page instead.') }}"></div>
+                    {% else %}
+                    <div class="fld"><label class="flabel">{{ _("Facebook page ID") }}</label><input class="inp" name="page_id" value="{{ p.page_id }}" required></div>
+                    {% endif %}
+                    <div class="fld"><label class="flabel">{{ _("Name (empty = use the name from Facebook)") }}</label><input class="inp" name="page_name" value="{{ p.page_name or '' }}"></div>
+                    <div class="fld"><label class="flabel" for="pg-{{ p.id }}-country">{{ _("Country") }}</label>
+                      {% with select_id="pg-" ~ p.id ~ "-country", select_name="collect_country", select_class="inp", country=p.collect_country %}{% include "_country_select.html" %}{% endwith %}
+                    </div>
+                    <button class="btn btn-primary btn-sm" type="submit">{{ _("Save") }}</button>
+                    <button class="btn btn-ghost btn-sm" type="button" data-cancel="pg-{{ p.id }}">{{ _("Cancel") }}</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr><td class="tdempty" colspan="5">{{ _("No pages yet. Add a page ID below.") }}</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <form method="POST" action="/admin/companies/{{ c.id }}/pages" class="formrow" style="margin-top:12px">
+            <div class="fld"><input class="inp" name="page_id" placeholder="{{ _('Facebook page ID') }}" required></div>
+            <div class="fld"><input class="inp" name="page_name" placeholder="{{ _('Name (optional)') }}"></div>
+            <div class="fld">{% with select_id="co-" ~ c.id ~ "-country", select_name="collect_country", select_class="inp", country=None %}{% include "_country_select.html" %}{% endwith %}</div>
+            <button class="btn btn-ghost btn-sm" type="submit"><svg class="icon" style="width:14px;height:14px"><use href="#i-plus"/></svg> {{ _("Add page") }}</button>
+          </form>
+        </div>
+      {% else %}
+        <p class="panel-note">{{ _("No companies yet.") }}</p>
+      {% endfor %}
+      </div>
+
+      <hr class="divider">
+      <form method="POST" action="/admin/companies" class="formrow" style="margin-top:18px">
+        <div class="fld"><label class="flabel">{{ _("New company") }}</label><input class="inp" name="name" placeholder="{{ _('Company name') }}" required></div>
+        <div class="fld"><label class="flabel">{{ _("Domain (optional)") }}</label><input class="inp" name="domain" placeholder="example.com"></div>
+        <button class="btn btn-primary btn-sm" type="submit"><svg class="icon" style="width:14px;height:14px"><use href="#i-plus"/></svg> {{ _("Add company") }}</button>
+      </form>
+    </section>
+
+    {# ── Collection source ────────────────────────────────────── #}
+    <section class="panel" id="source">
+      <div class="panel-head">
+        <div class="lede">
+          <div class="kick">{{ _("Source") }}</div>
+          <h2>{{ _("Where ads are read from") }}</h2>
+        </div>
+      </div>
+      <form method="POST" action="/admin/source" style="margin-top:14px">
+        {% with source=settings.collect_source, token_mask=settings.apify_token_mask, show_parallel=True,
+                parallel=settings.apify_max_parallel_runs, field_class="fld", label_class="flabel", input_class="inp" %}
+          {% include "_source_fields.html" %}
+        {% endwith %}
+        <div style="margin-top:18px"><button class="btn btn-primary btn-sm" type="submit">{{ _("Save source") }}</button></div>
+      </form>
+    </section>
+
+    {# ── Proxies ──────────────────────────────────────────────── #}
+    <section class="panel">
+      <div class="panel-head">
+        <div class="lede">
+          <div class="kick">{{ _("Network") }}</div>
+          <h2>{{ _("Proxies") }}</h2>
+        </div>
+      </div>
+      <div class="panel-note">{{ _("Rotation pool used by the collector. Collection also runs fine with no proxy.") }}{% if settings.collect_source == "apify" %} {{ _("Not used while ads are read through Apify.") }}{% endif %}</div>
+      <table class="adtable" style="margin-top:16px">
+        <thead><tr><th>URL</th><th>{{ _("State") }}</th><th></th></tr></thead>
+        <tbody>
+        {% for p in proxies %}
+          <tr>
+            <td class="mono">{{ p.url }}</td>
+            <td>
+              <form method="POST" action="/admin/proxies/{{ p.id }}/toggle">
+                <button class="togglebtn" type="submit" title="{{ _('Toggle proxy') }}">
+                  {% if p.enabled %}<span class="state on">{{ _("On") }}</span>{% else %}<span class="state off">{{ _("Off") }}</span>{% endif %}
+                </button>
+              </form>
+            </td>
+            <td style="text-align:right">
+              <form method="POST" action="/admin/proxies/{{ p.id }}/delete" data-confirm="{{ _('Remove proxy?') }}">
+                <button class="btn-x" type="submit" aria-label="{{ _('Remove proxy') }}"><svg class="icon" style="width:15px;height:15px"><use href="#i-x"/></svg></button>
+              </form>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td class="tdempty" colspan="3">{{ _("No proxies.") }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <form method="POST" action="/admin/proxies" class="formrow" style="margin-top:14px">
+        <div class="fld"><input class="inp" name="url" placeholder="{{ _('host:port or host:port:user:pass') }}" required></div>
+        <button class="btn btn-ghost btn-sm" type="submit"><svg class="icon" style="width:14px;height:14px"><use href="#i-plus"/></svg> {{ _("Add proxy") }}</button>
+      </form>
+    </section>
+
+    {# ── Configuration ────────────────────────────────────────── #}
+    <section class="panel">
+      <div class="panel-head">
+        <div class="lede">
+          <div class="kick">{{ _("Settings") }}</div>
+          <h2>{{ _("Configuration") }}</h2>
+        </div>
+      </div>
+      <form method="POST" action="/admin/settings">
+        <div class="formrow">
+          <div class="fld"><label class="flabel">{{ _("Collection interval (hours)") }}</label><input class="inp" name="collect_interval_hours" type="number" min="1" value="{{ settings.collect_interval_hours }}"></div>
+          <div class="fld"><label class="flabel" for="cfg-country">{{ _("Default ad country") }}</label>
+            {% with select_id="cfg-country", select_name="collect_country", select_class="inp", country=settings.collect_country, default_label=None %}{% include "_country_select.html" %}{% endwith %}
+          </div>
+          <div class="fld"><label class="flabel" for="cfg-language">{{ _("Interface language") }}</label>
+            <select id="cfg-language" name="language" class="inp">
+              {% for code, name in languages.items() %}<option value="{{ code }}" lang="{{ code }}"{% if code == lang %} selected{% endif %}>{{ name }}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="formrow" style="margin-top:16px">
+          <div class="fld"><label class="flabel" for="cfg-video-quality">{{ _("Video quality") }}</label>
+            <select id="cfg-video-quality" name="video_quality" class="inp">
+              <option value="standard"{% if settings.video_quality != "high" %} selected{% endif %}>{{ _("Standard: fast (Meta's SD file, 360px)") }}</option>
+              <option value="high"{% if settings.video_quality == "high" %} selected{% endif %}>{{ _("High: sharper (HD re-encoded to 640px)") }}</option>
+            </select>
+          </div>
+          <div class="fld"><label class="flabel" for="cfg-image-quality">{{ _("Image quality") }}</label>
+            <select id="cfg-image-quality" name="image_quality" class="inp">
+              <option value="standard"{% if settings.image_quality != "high" %} selected{% endif %}>{{ _("Standard: fast (up to 1280px)") }}</option>
+              <option value="high"{% if settings.image_quality == "high" %} selected{% endif %}>{{ _("High: sharper (up to 2048px)") }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-note" style="margin-top:10px">{{ _("Higher quality makes every collection take longer and use more storage, videos above all: each HD video is re-encoded, which is heavy on the CPU. Choose it only if the server has CPU to spare. It applies to media saved from now on.") }}</div>
+        <div style="margin-top:18px"><button class="btn btn-primary btn-sm" type="submit">{{ _("Save configuration") }}</button></div>
+      </form>
+    </section>
+
+  </div>
+</main>
+
+<script>window.__RUN_STATUS__ = {{ run_status_json|safe }};</script>
+<script src="{{ static_url('js/admin.js') }}" defer></script>
+<script src="{{ static_url('js/apify.js') }}" defer></script>
+{% endblock %}

@@ -1,0 +1,44 @@
+# Dependency versions are pinned (requirements*.txt, Dockerfile, docker-compose.yml,
+# workflows). Dependabot opens a PR when a new version is out, and CI tests it.
+#
+# Major upgrades that touch stored data or the runtime are done by hand, not by a PR:
+#   - Postgres: a new major can't open the old data directory (dump/restore or pg_upgrade).
+#   - Garage: garage_init talks to its v2 admin API.
+#   - Python: the image, CI and README move together, after checking every dependency.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        patterns: ["*"]
+        exclude-patterns: ["meta-ads-collector"]   # the scraper: reviewed on its own
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: python
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: postgres
+        update-types: ["version-update:semver-major"]
+      - dependency-name: dxflrs/garage
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

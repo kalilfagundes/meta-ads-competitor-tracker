@@ -1,0 +1,1455 @@
+# Translations template for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-09-21 14:38-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: tracker/web/deps.py:110 tracker/web/static/js/app.js:26
+#: tracker/web/templates/_macros.html:7
+msgid "Evergreen"
+msgstr ""
+
+#: tracker/web/deps.py:112 tracker/web/static/js/app.js:27
+#: tracker/web/templates/_macros.html:8
+msgid "Gold"
+msgstr ""
+
+#: tracker/web/deps.py:114 tracker/web/static/js/app.js:28
+#: tracker/web/templates/_macros.html:9
+msgid "Winner"
+msgstr ""
+
+#: tracker/web/deps.py:116 tracker/web/static/js/app.js:29
+#: tracker/web/templates/_macros.html:10
+msgid "Testing"
+msgstr ""
+
+#: tracker/web/deps.py:117 tracker/web/static/js/app.js:30
+#: tracker/web/templates/_macros.html:11
+msgid "New"
+msgstr ""
+
+#: tracker/web/routes/admin.py:22
+msgid "Company name can't be empty."
+msgstr ""
+
+#: tracker/web/routes/admin.py:23
+msgid "Can't delete: this company still has ads. Pause its pages instead of deleting."
+msgstr ""
+
+#: tracker/web/routes/admin.py:24
+msgid "Page ID can't be empty."
+msgstr ""
+
+#: tracker/web/routes/admin.py:25
+msgid "Can't delete this page: it still has ads. Pause it instead of deleting."
+msgstr ""
+
+#: tracker/web/routes/admin.py:26
+msgid "Page not found."
+msgstr ""
+
+#: tracker/web/routes/admin.py:27
+msgid "Can't change the page ID: this page already has ads. Add the new ID as a separate page instead."
+msgstr ""
+
+#: tracker/web/routes/admin.py:29
+msgid "That page ID is already registered."
+msgstr ""
+
+#: tracker/web/routes/admin.py:30
+msgid "Add your Apify API token to collect through Apify."
+msgstr ""
+
+#: tracker/web/routes/admin.py:31
+msgid "Simultaneous Actor runs must be a number from 1 to 5."
+msgstr ""
+
+#: tracker/web/routes/ads.py:84
+msgid "Ad not found."
+msgstr ""
+
+#: tracker/web/routes/landing.py:46
+msgid "Landing page not found."
+msgstr ""
+
+#: tracker/web/routes/setup.py:125
+msgid "That setup code isn't right."
+msgstr ""
+
+#: tracker/web/routes/setup.py:127
+msgid "Enter a username."
+msgstr ""
+
+#: tracker/web/routes/setup.py:129
+msgid "Password must be at least 8 characters."
+msgstr ""
+
+#: tracker/web/routes/setup.py:131
+msgid "Passwords don't match."
+msgstr ""
+
+#: tracker/web/routes/setup.py:168
+msgid "Add the company's Facebook page ID, or skip this step."
+msgstr ""
+
+#: tracker/web/routes/setup.py:170
+msgid "A page ID is only digits. Check “How do I find a page ID?” below."
+msgstr ""
+
+#: tracker/web/routes/setup.py:172
+msgid "Give the company a name."
+msgstr ""
+
+#: tracker/web/routes/setup.py:184
+msgid "Add your Apify API token, or collect self-hosted."
+msgstr ""
+
+#: tracker/web/routes/setup.py:185 tracker/web/static/js/apify.js:16
+msgid "Apify didn't accept this token."
+msgstr ""
+
+#: tracker/web/routes/setup.py:186
+msgid "Couldn't reach Apify to check the token. Try again in a moment."
+msgstr ""
+
+#: tracker/web/static/js/admin.js:8
+msgid "Manual"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:8
+msgid "Scheduled"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:8
+msgid "Worker start"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:9
+msgid "Starting…"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:9
+msgid "Collecting…"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:13
+msgid "Reading ads on Apify"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:13
+msgid "Saving ads"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:13
+msgid "Saving images and videos"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:14
+msgid "Linking ads to landing pages"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:14
+msgid "Fetching landing-page titles"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:14 tracker/web/static/js/admin.js:79
+msgid "Finishing"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:24
+#, python-format
+msgid "%(num)s read"
+msgid_plural "%(num)s read"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/static/js/admin.js:45
+#, python-format
+msgid "%(num)s error"
+msgid_plural "%(num)s errors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/static/js/admin.js:56
+#, python-format
+msgid "No progress for over %(minutes)s min"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:56 tracker/web/static/js/admin.js:97
+msgid "Stalled"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:57
+msgid "Running"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:59
+msgid "Done"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:69
+msgid "Starting a run…"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:72
+#, python-format
+msgid "Requested %(ago)s ago and the worker hasn't picked it up yet. Is the worker running? Check: docker compose logs worker"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:73
+msgid "The worker picks it up within a few seconds."
+msgstr ""
+
+#: tracker/web/static/js/admin.js:76 tracker/web/templates/help_apify.html:52
+msgid "Collecting"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:86 tracker/web/static/js/app.js:228
+#, python-format
+msgid "Page %(page)s of %(pages)s"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:88 tracker/web/static/js/app.js:229
+#: tracker/web/templates/landing_pages.html:58
+#, python-format
+msgid "%(num)s ad"
+msgid_plural "%(num)s ads"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/static/js/admin.js:92
+#, python-format
+msgid "<b>%(ads)s</b> ads so far · <b>%(new)s</b> new · %(elapsed)s elapsed"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:94 tracker/web/static/js/admin.js:104
+#, python-format
+msgid "Apify cost %(cost)s"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:95
+#, python-format
+msgid "last activity %(ago)s ago"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:98
+#, python-format
+msgid "Run #%(run)s stopped reporting progress %(ago)s ago. Check the worker: docker compose logs worker"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:100
+msgid "Idle"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:100
+msgid "No runs yet"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:103
+#, python-format
+msgid "Last run %(when)s · %(ads)s ads (%(new)s new) in %(took)s"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:108
+msgid "Done."
+msgstr ""
+
+#: tracker/web/static/js/admin.js:108
+msgid "Open the library →"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:111
+#, python-format
+msgid "Next automatic run in about %(time)s."
+msgstr ""
+
+#: tracker/web/static/js/admin.js:112
+#, python-format
+msgid "Runs automatically every %(hours)sh."
+msgstr ""
+
+#: tracker/web/static/js/admin.js:126 tracker/web/templates/admin.html:26
+msgid "Collect now"
+msgstr ""
+
+#: tracker/web/static/js/admin.js:139
+msgid "No collection runs yet."
+msgstr ""
+
+#: tracker/web/static/js/apify.js:15
+msgid "Type a token first."
+msgstr ""
+
+#: tracker/web/static/js/apify.js:17
+msgid "Couldn't reach Apify. Try again in a moment."
+msgstr ""
+
+#: tracker/web/static/js/apify.js:28
+msgid "Checking…"
+msgstr ""
+
+#: tracker/web/static/js/apify.js:33
+#, python-format
+msgid "Token works: Apify account %(user)s."
+msgstr ""
+
+#: tracker/web/static/js/app.js:32 tracker/web/templates/_macros.html:12
+#: tracker/web/templates/detail.html:93 tracker/web/templates/detail.html:141
+#, python-format
+msgid "%(days)sd"
+msgstr ""
+
+#: tracker/web/static/js/app.js:38 tracker/web/templates/ads.html:52
+#: tracker/web/templates/detail.html:123
+msgid "Image"
+msgstr ""
+
+#: tracker/web/static/js/app.js:38 tracker/web/templates/ads.html:53
+#: tracker/web/templates/detail.html:123
+msgid "Video"
+msgstr ""
+
+#: tracker/web/static/js/app.js:38 tracker/web/templates/ads.html:54
+#: tracker/web/templates/detail.html:123
+msgid "Carousel"
+msgstr ""
+
+#: tracker/web/static/js/app.js:39 tracker/web/templates/detail.html:123
+msgid "Catalog"
+msgstr ""
+
+#: tracker/web/static/js/app.js:39 tracker/web/templates/detail.html:123
+msgid "Dynamic creative"
+msgstr ""
+
+#: tracker/web/static/js/app.js:43 tracker/web/templates/detail.html:123
+#, python-format
+msgid "%(num)s card"
+msgid_plural "%(num)s cards"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/static/js/app.js:188
+msgid "Inactive ads have no impression rank: Meta only ranks ads that are running now."
+msgstr ""
+
+#: tracker/web/static/js/app.js:189
+msgid "Impression rank is Meta's order of one company's active ads, so #1 means top within that company. It can't be compared across companies, so ads are grouped by company."
+msgstr ""
+
+#: tracker/web/static/js/app.js:196 tracker/web/templates/detail.html:89
+#, python-format
+msgid "Most impressions among %(company)s's active ads"
+msgstr ""
+
+#: tracker/web/static/js/app.js:196 tracker/web/templates/detail.html:89
+msgid "Top ad"
+msgstr ""
+
+#: tracker/web/static/js/app.js:199
+#, python-format
+msgid "%(num)s version"
+msgid_plural "%(num)s versions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/static/js/app.js:200 tracker/web/templates/detail.html:123
+#, python-format
+msgid "%(num)s format"
+msgid_plural "%(num)s formats"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/static/js/app.js:205
+#, python-format
+msgid "Top ads from %(company)s"
+msgstr ""
+
+#: tracker/web/static/js/app.js:205 tracker/web/templates/ads.html:14
+msgid "Each competitor's longest-running ads"
+msgstr ""
+
+#: tracker/web/static/js/app.js:217
+msgid "d"
+msgstr ""
+
+#: tracker/web/static/js/app.js:243
+msgid "No ads here yet"
+msgstr ""
+
+#: tracker/web/static/js/app.js:244
+msgid "Try clearing a filter or switching status."
+msgstr ""
+
+#: tracker/web/static/js/app.js:245
+msgid "Once a collection run finishes, ads will appear here. Add competitor pages in Settings."
+msgstr ""
+
+#: tracker/web/static/js/app.js:253
+msgid "Rank among this company's active ads only"
+msgstr ""
+
+#: tracker/web/static/js/app.js:253
+#, python-format
+msgid "#%(rank)s by impressions at %(company)s"
+msgstr ""
+
+#: tracker/web/static/js/app.js:260 tracker/web/templates/detail.html:92
+msgid "Untitled ad"
+msgstr ""
+
+#: tracker/web/static/js/app.js:266 tracker/web/templates/detail.html:99
+msgid "Copy"
+msgstr ""
+
+#: tracker/web/static/js/app.js:294 tracker/web/templates/detail.html:99
+msgid "Copied"
+msgstr ""
+
+#: tracker/web/templates/_masthead.html:6 tracker/web/templates/admin.html:42
+#: tracker/web/templates/ads.html:2
+msgid "Ads"
+msgstr ""
+
+#: tracker/web/templates/_masthead.html:7
+#: tracker/web/templates/landing_pages.html:2
+msgid "Landing Pages"
+msgstr ""
+
+#: tracker/web/templates/_masthead.html:8 tracker/web/templates/admin.html:2
+#: tracker/web/templates/admin.html:10 tracker/web/templates/admin.html:205
+msgid "Settings"
+msgstr ""
+
+#: tracker/web/templates/_masthead.html:14
+msgid "Search copy, companies…"
+msgstr ""
+
+#: tracker/web/templates/_masthead.html:17
+msgid "Sign out"
+msgstr ""
+
+#: tracker/web/templates/_page_id_help.html:3
+msgid "How do I find a page ID?"
+msgstr ""
+
+#: tracker/web/templates/_page_id_help.html:5
+msgid "Open the <a href=\"https://www.facebook.com/ads/library/\" target=\"_blank\" rel=\"noopener noreferrer\">Meta Ad Library</a> and search for the advertiser."
+msgstr ""
+
+#: tracker/web/templates/_page_id_help.html:6
+msgid "Click the advertiser's name. The address now contains <code>view_all_page_id=</code> followed by digits: that's the page ID."
+msgstr ""
+
+#: tracker/web/templates/_page_id_help.html:7
+msgid "Don't use the Library ID shown on an ad: that identifies one ad, not the page."
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:4
+#: tracker/web/templates/_setup_layout.html:10
+msgid "First run"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:6
+msgid "Language"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:6
+msgid "Administrator"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:6
+msgid "First competitor"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:6
+#: tracker/web/templates/admin.html:21
+msgid "Collection"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:11
+msgid "Set up your <em>tracker</em>."
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:18
+#: tracker/web/templates/login.html:11
+msgid "Open source"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:18
+#: tracker/web/templates/_source_fields.html:16
+#: tracker/web/templates/login.html:11
+msgid "Self-hosted"
+msgstr ""
+
+#: tracker/web/templates/_setup_layout.html:22
+#, python-format
+msgid "Step %(step)s of %(total)s"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:10
+msgid "Recommended"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:10
+msgid "An Apify Actor reads it through residential proxies, so it works from any server. Apify charges your account per ad collected."
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:11
+#, python-format
+msgid "About US$ %(price)s per 1,000 ads. Apify's free plan includes US$ %(credit)s a month."
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:12
+msgid "How to get a token and what it costs"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:16
+msgid "This server reads the Ad Library itself, from its own IP or through your proxies. Free, but Meta may block datacenter IPs."
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:21
+msgid "Apify API token"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:25
+msgid "Test token"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:28
+msgid "In Apify Console: Settings → API & Integrations."
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:29
+#: tracker/web/templates/help_apify.html:14
+msgid "Step by step"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:29
+msgid "Leave it empty to keep the saved token."
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:30
+msgid "Actor:"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:34
+msgid "Simultaneous Actor runs"
+msgstr ""
+
+#: tracker/web/templates/_source_fields.html:36
+msgid "Each Actor run reads up to 5 pages. Apify's free plan allows at most 5 runs at the same time, and the runs used here block your other Actors while a collection is going on."
+msgstr ""
+
+#: tracker/web/templates/admin.html:9
+msgid "Instance"
+msgstr ""
+
+#: tracker/web/templates/admin.html:20
+msgid "Pipeline"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "Started"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "Trigger"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42 tracker/web/templates/ads.html:58
+msgid "Status"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "Pages"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "New ads"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "Took"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "What Apify charged for the run"
+msgstr ""
+
+#: tracker/web/templates/admin.html:42
+msgid "Cost"
+msgstr ""
+
+#: tracker/web/templates/admin.html:51
+msgid "Targets"
+msgstr ""
+
+#: tracker/web/templates/admin.html:52
+msgid "Companies & pages"
+msgstr ""
+
+#: tracker/web/templates/admin.html:56
+#, python-format
+msgid "Default country (%(country)s)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:57
+msgid "Each company groups one or more Facebook pages. Re-adding a page ID moves it under this company (that's how you unify pages)."
+msgstr ""
+
+#: tracker/web/templates/admin.html:58
+msgid "Each page is collected in the default country, unless you give it its own: useful to follow competitors in several countries."
+msgstr ""
+
+#: tracker/web/templates/admin.html:67
+msgid "Edit"
+msgstr ""
+
+#: tracker/web/templates/admin.html:68
+#, python-format
+msgid "Delete %(company)s and its pages?"
+msgstr ""
+
+#: tracker/web/templates/admin.html:69
+msgid "Delete"
+msgstr ""
+
+#: tracker/web/templates/admin.html:74 tracker/web/templates/admin.html:139
+#: tracker/web/templates/setup_competitor.html:12
+msgid "Company name"
+msgstr ""
+
+#: tracker/web/templates/admin.html:75 tracker/web/templates/admin.html:140
+msgid "Domain (optional)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:76 tracker/web/templates/admin.html:115
+msgid "Save"
+msgstr ""
+
+#: tracker/web/templates/admin.html:77 tracker/web/templates/admin.html:116
+msgid "Cancel"
+msgstr ""
+
+#: tracker/web/templates/admin.html:80
+msgid "Page ID"
+msgstr ""
+
+#: tracker/web/templates/admin.html:80
+msgid "Name"
+msgstr ""
+
+#: tracker/web/templates/admin.html:80 tracker/web/templates/admin.html:112
+msgid "Country"
+msgstr ""
+
+#: tracker/web/templates/admin.html:80
+msgid "Tracking"
+msgstr ""
+
+#: tracker/web/templates/admin.html:86
+msgid "Default"
+msgstr ""
+
+#: tracker/web/templates/admin.html:89
+msgid "Toggle tracking"
+msgstr ""
+
+#: tracker/web/templates/admin.html:90
+msgid "Tracked"
+msgstr ""
+
+#: tracker/web/templates/admin.html:90
+msgid "Paused"
+msgstr ""
+
+#: tracker/web/templates/admin.html:96
+msgid "Edit page"
+msgstr ""
+
+#: tracker/web/templates/admin.html:97
+msgid "Delete this page?"
+msgstr ""
+
+#: tracker/web/templates/admin.html:98
+msgid "Delete page"
+msgstr ""
+
+#: tracker/web/templates/admin.html:107
+msgid "Facebook page ID (locked: this page has ads)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:107
+msgid "This page already has ads. Add a new ID as a separate page instead."
+msgstr ""
+
+#: tracker/web/templates/admin.html:109 tracker/web/templates/admin.html:126
+#: tracker/web/templates/setup_competitor.html:16
+msgid "Facebook page ID"
+msgstr ""
+
+#: tracker/web/templates/admin.html:111
+msgid "Name (empty = use the name from Facebook)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:121
+msgid "No pages yet. Add a page ID below."
+msgstr ""
+
+#: tracker/web/templates/admin.html:127
+msgid "Name (optional)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:129
+msgid "Add page"
+msgstr ""
+
+#: tracker/web/templates/admin.html:133
+msgid "No companies yet."
+msgstr ""
+
+#: tracker/web/templates/admin.html:139
+msgid "New company"
+msgstr ""
+
+#: tracker/web/templates/admin.html:141
+msgid "Add company"
+msgstr ""
+
+#: tracker/web/templates/admin.html:149
+msgid "Source"
+msgstr ""
+
+#: tracker/web/templates/admin.html:150
+msgid "Where ads are read from"
+msgstr ""
+
+#: tracker/web/templates/admin.html:158
+msgid "Save source"
+msgstr ""
+
+#: tracker/web/templates/admin.html:166
+msgid "Network"
+msgstr ""
+
+#: tracker/web/templates/admin.html:167
+msgid "Proxies"
+msgstr ""
+
+#: tracker/web/templates/admin.html:170
+msgid "Rotation pool used by the collector. Collection also runs fine with no proxy."
+msgstr ""
+
+#: tracker/web/templates/admin.html:170
+msgid "Not used while ads are read through Apify."
+msgstr ""
+
+#: tracker/web/templates/admin.html:172
+msgid "State"
+msgstr ""
+
+#: tracker/web/templates/admin.html:179
+msgid "Toggle proxy"
+msgstr ""
+
+#: tracker/web/templates/admin.html:180
+msgid "On"
+msgstr ""
+
+#: tracker/web/templates/admin.html:180
+msgid "Off"
+msgstr ""
+
+#: tracker/web/templates/admin.html:185
+msgid "Remove proxy?"
+msgstr ""
+
+#: tracker/web/templates/admin.html:186
+msgid "Remove proxy"
+msgstr ""
+
+#: tracker/web/templates/admin.html:191
+msgid "No proxies."
+msgstr ""
+
+#: tracker/web/templates/admin.html:196
+msgid "host:port or host:port:user:pass"
+msgstr ""
+
+#: tracker/web/templates/admin.html:197
+msgid "Add proxy"
+msgstr ""
+
+#: tracker/web/templates/admin.html:206
+msgid "Configuration"
+msgstr ""
+
+#: tracker/web/templates/admin.html:211
+msgid "Collection interval (hours)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:212
+#: tracker/web/templates/setup_collection.html:13
+msgid "Default ad country"
+msgstr ""
+
+#: tracker/web/templates/admin.html:215
+msgid "Interface language"
+msgstr ""
+
+#: tracker/web/templates/admin.html:222
+msgid "Video quality"
+msgstr ""
+
+#: tracker/web/templates/admin.html:224
+msgid "Standard: fast (Meta's SD file, 360px)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:225
+msgid "High: sharper (HD re-encoded to 640px)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:228
+msgid "Image quality"
+msgstr ""
+
+#: tracker/web/templates/admin.html:230
+msgid "Standard: fast (up to 1280px)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:231
+msgid "High: sharper (up to 2048px)"
+msgstr ""
+
+#: tracker/web/templates/admin.html:235
+msgid "Higher quality makes every collection take longer and use more storage, videos above all: each HD video is re-encoded, which is heavy on the CPU. Choose it only if the server has CPU to spare. It applies to media saved from now on."
+msgstr ""
+
+#: tracker/web/templates/admin.html:236
+msgid "Save configuration"
+msgstr ""
+
+#: tracker/web/templates/ads.html:12
+msgid "Champions"
+msgstr ""
+
+#: tracker/web/templates/ads.html:13
+msgid "What's working"
+msgstr ""
+
+#: tracker/web/templates/ads.html:18
+msgid "Previous"
+msgstr ""
+
+#: tracker/web/templates/ads.html:22 tracker/web/templates/ads.html:97
+msgid "Next"
+msgstr ""
+
+#: tracker/web/templates/ads.html:30
+msgid "The library"
+msgstr ""
+
+#: tracker/web/templates/ads.html:31
+msgid "All ads"
+msgstr ""
+
+#: tracker/web/templates/ads.html:34
+msgid "Gallery"
+msgstr ""
+
+#: tracker/web/templates/ads.html:35
+msgid "Grid"
+msgstr ""
+
+#: tracker/web/templates/ads.html:36
+msgid "Ad copy"
+msgstr ""
+
+#: tracker/web/templates/ads.html:42
+#: tracker/web/templates/landing_pages.html:18
+msgid "Company"
+msgstr ""
+
+#: tracker/web/templates/ads.html:44 tracker/web/templates/ads.html:51
+#: tracker/web/templates/landing_pages.html:21
+msgid "All"
+msgstr ""
+
+#: tracker/web/templates/ads.html:49 tracker/web/templates/detail.html:123
+msgid "Media"
+msgstr ""
+
+#: tracker/web/templates/ads.html:60 tracker/web/templates/detail.html:87
+#: tracker/web/templates/detail.html:141
+#: tracker/web/templates/landing_pages.html:60
+#: tracker/web/templates/product.html:63
+msgid "Active"
+msgstr ""
+
+#: tracker/web/templates/ads.html:61 tracker/web/templates/detail.html:87
+#: tracker/web/templates/detail.html:141 tracker/web/templates/product.html:63
+msgid "Inactive"
+msgstr ""
+
+#: tracker/web/templates/ads.html:65 tracker/web/templates/ads.html:79
+msgid "Duration"
+msgstr ""
+
+#: tracker/web/templates/ads.html:67
+msgid "Any"
+msgstr ""
+
+#: tracker/web/templates/ads.html:68 tracker/web/templates/ads.html:69
+#: tracker/web/templates/ads.html:70 tracker/web/templates/ads.html:71
+#, python-format
+msgid "%(days)sd+"
+msgstr ""
+
+#: tracker/web/templates/ads.html:73
+msgid "Xd+"
+msgstr ""
+
+#: tracker/web/templates/ads.html:73
+msgid "Custom minimum days running"
+msgstr ""
+
+#: tracker/web/templates/ads.html:76
+#: tracker/web/templates/landing_pages.html:28
+msgid "Sort"
+msgstr ""
+
+#: tracker/web/templates/ads.html:80
+msgid "Impression rank (per company, active)"
+msgstr ""
+
+#: tracker/web/templates/ads.html:81
+msgid "Newest"
+msgstr ""
+
+#: tracker/web/templates/ads.html:86
+msgid "Download the ads matching these filters as a spreadsheet"
+msgstr ""
+
+#: tracker/web/templates/ads.html:87
+#: tracker/web/templates/landing_pages.html:38
+msgid "Export CSV"
+msgstr ""
+
+#: tracker/web/templates/ads.html:94
+msgid "Pagination"
+msgstr ""
+
+#: tracker/web/templates/ads.html:95
+msgid "Prev"
+msgstr ""
+
+#: tracker/web/templates/detail.html:2
+msgid "Ad"
+msgstr ""
+
+#: tracker/web/templates/detail.html:13
+msgid "Back to ads"
+msgstr ""
+
+#: tracker/web/templates/detail.html:30
+msgid "Previous creative"
+msgstr ""
+
+#: tracker/web/templates/detail.html:31
+msgid "Next creative"
+msgstr ""
+
+#: tracker/web/templates/detail.html:40
+#, python-format
+msgid "Card %(n)s of %(total)s"
+msgstr ""
+
+#: tracker/web/templates/detail.html:49 tracker/web/templates/detail.html:113
+msgid "Open the page"
+msgstr ""
+
+#: tracker/web/templates/detail.html:60
+msgid "Formats"
+msgstr ""
+
+#: tracker/web/templates/detail.html:60
+#, python-format
+msgid "Same ad in %(n)s formats"
+msgstr ""
+
+#: tracker/web/templates/detail.html:63
+#, python-format
+msgid "Show format %(n)s"
+msgstr ""
+
+#: tracker/web/templates/detail.html:82
+#, python-format
+msgid "%(likes)s likes"
+msgstr ""
+
+#: tracker/web/templates/detail.html:97
+msgid "Primary text"
+msgstr ""
+
+#: tracker/web/templates/detail.html:105
+msgid "Destination"
+msgid_plural "Destinations"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/templates/detail.html:109
+msgid "View landing page"
+msgstr ""
+
+#: tracker/web/templates/detail.html:120
+msgid "Running for"
+msgstr ""
+
+#: tracker/web/templates/detail.html:120
+#, python-format
+msgid "%(num)s day"
+msgid_plural "%(num)s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/templates/detail.html:121
+msgid "Call to action"
+msgstr ""
+
+#: tracker/web/templates/detail.html:122
+msgid "Platforms"
+msgstr ""
+
+#: tracker/web/templates/detail.html:124
+msgid "Impression rank"
+msgstr ""
+
+#: tracker/web/templates/detail.html:124
+#, python-format
+msgid "#%(rank)s among %(company)s's active ads"
+msgstr ""
+
+#: tracker/web/templates/detail.html:125 tracker/web/templates/product.html:30
+msgid "First seen"
+msgstr ""
+
+#: tracker/web/templates/detail.html:126
+msgid "Last seen active"
+msgstr ""
+
+#: tracker/web/templates/detail.html:127
+msgid "Ad ID"
+msgstr ""
+
+#: tracker/web/templates/detail.html:133
+msgid "Other versions"
+msgstr ""
+
+#: tracker/web/templates/detail.html:134
+#, python-format
+msgid "Meta groups %(n)s ads as versions of this one"
+msgstr ""
+
+#: tracker/web/templates/detail.html:134
+#, python-format
+msgid "(%(reported)s reported, %(tracked)s tracked)"
+msgstr ""
+
+#: tracker/web/templates/detail.html:150
+msgid "Meta Ad Library"
+msgstr ""
+
+#: tracker/web/templates/detail.html:152
+#, python-format
+msgid "More from %(company)s"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:2
+#: tracker/web/templates/help_apify.html:8
+msgid "Collect through Apify"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:7
+msgid "Help"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:9
+msgid "Meta blocks many server IPs, so reading the Ad Library from your own server can fail. Apify reads it for you through residential proxies, and costs very little."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:15
+msgid "Get your Apify API token"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:18
+msgid "Create a free Apify account."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:19
+msgid "No credit card needed. You can sign up with Google, GitHub or an email address."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:20
+msgid "Create the account"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:23
+msgid "Open Settings → API & Integrations in Apify Console."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:24
+msgid "Open API & Integrations"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:27
+msgid "Copy your Personal API token."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:28
+msgid "It starts with apify_api_. Treat it like a password: anyone with it can use your Apify account."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:31
+msgid "Paste it here and press Test token."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:32
+msgid "In the setup wizard's Collection step, or later in Settings → Where ads are read from. It should answer with your Apify username."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:35
+msgid "You don't need to open or configure the Actor on Apify: the tracker starts it by itself on each collection."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:36
+msgid "The Actor it runs is"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:40
+msgid "Pricing"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:41
+msgid "How much it costs"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:43
+msgid "per 1,000 ads collected"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:44
+msgid "per Actor run (each reads up to 5 pages)"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:45
+msgid "free every month on Apify's free plan"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:47
+#, python-format
+msgid "Apify's free plan gives US$ %(credit)s of usage every month, with no credit card. That's about %(ads)s ads a month at no cost. Unused credit doesn't carry over to the next month."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:49
+msgid "An example"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:50
+#, python-format
+msgid "%(pages)s competitors with about %(per_page)s active ads each: one collection reads about %(ads)s ads and costs about US$ %(cost)s."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:52
+msgid "About per month"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:54
+msgid "Once a day"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:54
+msgid "within the free credit"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:55
+#: tracker/web/templates/setup_collection.html:21
+#, python-format
+msgid "Every hour"
+msgid_plural "Every %(num)s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/templates/help_apify.html:58
+msgid "Each collection reads every active ad of your competitors again, so the cost grows with how many ads they run and how often you collect. Settings shows what Apify charged for every collection."
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:59
+msgid "Prices are the Actor's, on Apify's free plan (paid plans pay less), and may change:"
+msgstr ""
+
+#: tracker/web/templates/help_apify.html:60
+msgid "see the Actor's page"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:11
+msgid "Aggregation"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:12
+msgid "Landing pages"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:13
+msgid "The same ads grouped by <strong>destination page</strong>: many ads pointing at one URL collapse into a single row. New pages appear after a collection run links ads to their landing URL, and their titles are fetched right after."
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:31
+msgid "Most ads"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:32
+msgid "Longest running"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:37
+#, python-format
+msgid "%(num)s page"
+msgid_plural "%(num)s pages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/templates/landing_pages.html:38
+msgid "Download these landing pages as a spreadsheet"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:62
+msgid "Page unreachable"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:63
+msgid "Title pending"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:72
+msgid "No landing pages yet"
+msgstr ""
+
+#: tracker/web/templates/landing_pages.html:73
+msgid "They appear once the worker collects ads that carry a destination link. Linking runs on every collection."
+msgstr ""
+
+#: tracker/web/templates/login.html:2 tracker/web/templates/login.html:15
+#: tracker/web/templates/login.html:28
+msgid "Sign in"
+msgstr ""
+
+#: tracker/web/templates/login.html:7
+msgid "Meta Ad Library tracker"
+msgstr ""
+
+#: tracker/web/templates/login.html:8
+msgid "See the ads your competitors <em>keep</em> running."
+msgstr ""
+
+#: tracker/web/templates/login.html:9
+msgid "Open source, self-hosted. Point it at any Facebook page and it collects that advertiser's Meta ads over time."
+msgstr ""
+
+#: tracker/web/templates/login.html:16
+msgid "Enter your username and password."
+msgstr ""
+
+#: tracker/web/templates/login.html:17
+#, python-format
+msgid "Too many failed attempts. Try again in %(num)s minute."
+msgid_plural "Too many failed attempts. Try again in %(num)s minutes."
+msgstr[0] ""
+msgstr[1] ""
+
+#: tracker/web/templates/login.html:18
+msgid "Wrong username or password."
+msgstr ""
+
+#: tracker/web/templates/login.html:21
+#: tracker/web/templates/setup_admin.html:14
+msgid "Username"
+msgstr ""
+
+#: tracker/web/templates/login.html:25
+#: tracker/web/templates/setup_admin.html:18
+msgid "Password"
+msgstr ""
+
+#: tracker/web/templates/product.html:2 tracker/web/templates/product.html:13
+msgid "Landing page"
+msgstr ""
+
+#: tracker/web/templates/product.html:10
+msgid "Back to landing pages"
+msgstr ""
+
+#: tracker/web/templates/product.html:27
+msgid "Overview"
+msgstr ""
+
+#: tracker/web/templates/product.html:27
+msgid "Basics"
+msgstr ""
+
+#: tracker/web/templates/product.html:29
+msgid "Ads pointing here"
+msgstr ""
+
+#: tracker/web/templates/product.html:31
+msgid "Last seen"
+msgstr ""
+
+#: tracker/web/templates/product.html:33
+msgid "Redirects to"
+msgstr ""
+
+#: tracker/web/templates/product.html:34
+msgid "Title checked"
+msgstr ""
+
+#: tracker/web/templates/product.html:35
+msgid "Page versions seen"
+msgstr ""
+
+#: tracker/web/templates/product.html:38
+msgid "The worker couldn't open this page, so there's no title yet. It tries again in a day."
+msgstr ""
+
+#: tracker/web/templates/product.html:38
+msgid "The page title appears after the worker opens this URL (right after the next collection run)."
+msgstr ""
+
+#: tracker/web/templates/product.html:43
+msgid "History"
+msgstr ""
+
+#: tracker/web/templates/product.html:43
+msgid "How the page changed"
+msgstr ""
+
+#: tracker/web/templates/product.html:46
+msgid "(no title)"
+msgstr ""
+
+#: tracker/web/templates/product.html:54
+msgid "Traffic"
+msgstr ""
+
+#: tracker/web/templates/product.html:54
+msgid "Ads driving to this page"
+msgstr ""
+
+#: tracker/web/templates/product.html:69
+msgid "No ads currently linked to this landing page."
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:5
+msgid "Create administrator"
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:6
+msgid "This account signs in to the tracker."
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:9
+msgid "Setup code"
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:11
+msgid "The setup script printed it, and saved it in .env as SETUP_TOKEN. Didn't set one? Find it in the web app's log: docker compose logs web"
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:20
+msgid "At least 8 characters."
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:23
+msgid "Confirm password"
+msgstr ""
+
+#: tracker/web/templates/setup_admin.html:26
+#: tracker/web/templates/setup_competitor.html:20
+#: tracker/web/templates/setup_language.html:13
+msgid "Continue"
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:5
+msgid "How should collection run?"
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:6
+msgid "All of it can be changed later in Settings."
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:9
+msgid "Read ads from"
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:15
+msgid "Used for any page without a country set."
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:18
+msgid "Collect automatically"
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:24
+msgid "Shorter intervals catch ads that run briefly, but make more requests to Meta."
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:27
+msgid "Start collecting"
+msgstr ""
+
+#: tracker/web/templates/setup_collection.html:27
+msgid "Finish"
+msgstr ""
+
+#: tracker/web/templates/setup_competitor.html:5
+msgid "Track your first competitor"
+msgstr ""
+
+#: tracker/web/templates/setup_competitor.html:6
+msgid "Add one Facebook page now. You can add more competitors in Settings."
+msgstr ""
+
+#: tracker/web/templates/setup_competitor.html:9
+msgid "Already added:"
+msgstr ""
+
+#: tracker/web/templates/setup_competitor.html:13
+msgid "e.g. Acme Inc."
+msgstr ""
+
+#: tracker/web/templates/setup_competitor.html:22
+msgid "Skip for now"
+msgstr ""
+
+#: tracker/web/templates/setup_language.html:5
+msgid "Is this your language?"
+msgstr ""
+
+#: tracker/web/templates/setup_language.html:6
+msgid "We picked it from your browser. Choose another one if it's wrong; you can change it later in Settings."
+msgstr ""
+

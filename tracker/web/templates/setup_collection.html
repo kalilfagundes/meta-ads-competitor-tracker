@@ -1,0 +1,29 @@
+{% extends "_setup_layout.html" %}
+{% set step = 4 %}
+{% block card %}
+<form method="POST" action="/setup/collection">
+  <h2>{{ _("How should collection run?") }}</h2>
+  <div class="sub">{{ _("All of it can be changed later in Settings.") }}</div>
+  {% if error %}<div class="form-error">{{ _(error) }}</div>{% endif %}
+  <div class="field">
+    <label>{{ _("Read ads from") }}</label>
+    {% with field_class="field", label_class="", input_class="", show_parallel=False %}{% include "_source_fields.html" %}{% endwith %}
+  </div>
+  <div class="field">
+    <label for="t-country">{{ _("Default ad country") }}</label>
+    {% include "_country_select.html" %}
+    <div class="hint">{{ _("Used for any page without a country set.") }}</div>
+  </div>
+  <div class="field">
+    <label for="t-interval">{{ _("Collect automatically") }}</label>
+    <select id="t-interval" name="interval">
+      {% for hours in interval_choices %}
+      <option value="{{ hours }}"{% if hours == interval %} selected{% endif %}>{{ ngettext("Every hour", "Every %(num)s hours", hours) }}</option>
+      {% endfor %}
+    </select>
+    <div class="hint">{{ _("Shorter intervals catch ads that run briefly, but make more requests to Meta.") }}</div>
+  </div>
+  <script src="{{ static_url('js/apify.js') }}" defer></script>
+  <button class="btn btn-primary btn-block" type="submit">{% if has_pages %}{{ _("Start collecting") }}{% else %}{{ _("Finish") }}{% endif %} <svg class="icon"><use href="#i-arrow"/></svg></button>
+</form>
+{% endblock %}

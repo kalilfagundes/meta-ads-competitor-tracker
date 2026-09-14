@@ -1,0 +1,30 @@
+# meta-ads-competitor-tracker — runtime dependencies.
+# Dev/test extras live in requirements-dev.txt.
+# Versions are pinned so a fresh install matches what CI tested; Dependabot
+# opens a PR (tested by CI) when a new version comes out.
+
+# Database: schema migrations + driver
+alembic==1.20.0
+SQLAlchemy==2.0.53
+psycopg[binary]==3.3.5
+python-dotenv==1.2.3
+
+# Object storage (any S3-compatible endpoint: Garage / AWS S3 / Cloudflare R2 / …)
+boto3==1.43.94
+
+# Web app
+fastapi==0.141.1
+uvicorn[standard]==0.53.0
+jinja2==3.1.6
+python-multipart==0.0.32
+httpx==0.28.1
+# Interface translations (reads the .po catalogs in tracker/locale; country names)
+Babel==2.18.0
+
+# Scraping worker. Needs 1.4.0 or newer: the first PyPI release with the async
+# collector + ProxyPool (async_collector/proxy_pool submodules). Pulls in curl_cffi
+# transitively.
+meta-ads-collector==1.4.0
+
+# Image compression (the worker mirrors creatives as resized WebP).
+Pillow==12.3.0

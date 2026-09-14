@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}{{ (latest.headline if latest and latest.headline else lp.display_url) }} · {{ _("Landing page") }}{% endblock %}
+{% from "_macros.html" import durpill with context %}
+
+{% block body %}
+{% set nav_active = 'landing' %}
+{% include "_masthead.html" %}
+
+<div class="wrap">
+  <a class="back" href="/landing-pages"><svg class="icon"><use href="#i-left"/></svg> {{ _("Back to landing pages") }}</a>
+
+  <div class="page-head">
+    <div class="kick">{{ lp.company_name }} · {{ _("Landing page") }}</div>
+    <h1>{{ latest.headline if latest and latest.headline else lp.display_url }}</h1>
+    {% if latest and latest.description %}<p class="lpdesc">{{ latest.description }}</p>{% endif %}
+    <div class="note">
+      {% if lp.url_canonical|safe_href %}
+      <a href="{{ lp.url_canonical|safe_href }}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600">
+        {{ lp.url_canonical }} <svg class="icon" style="width:13px;height:13px"><use href="#i-out"/></svg>
+      </a>
+      {% else %}{{ lp.url_canonical }}{% endif %}
+    </div>
+  </div>
+
+  <div class="stack">
+    <section class="panel">
+      <div class="panel-head"><div class="lede"><div class="kick">{{ _("Overview") }}</div><h2>{{ _("Basics") }}</h2></div></div>
+      <div class="facts">
+        <div class="f"><span class="k">{{ _("Ads pointing here") }}</span><span class="v tnum">{{ ads|length }}</span></div>
+        {% if lp.first_seen %}<div class="f"><span class="k">{{ _("First seen") }}</span><span class="v tnum">{{ lp.first_seen }}</span></div>{% endif %}
+        {% if lp.last_seen %}<div class="f"><span class="k">{{ _("Last seen") }}</span><span class="v tnum">{{ lp.last_seen }}</span></div>{% endif %}
+        {% if latest %}
+          {% if latest.final_url and latest.final_url != lp.url_canonical %}<div class="f"><span class="k">{{ _("Redirects to") }}</span><span class="v lpfinal" title="{{ latest.final_url }}">{{ latest.final_url }}</span></div>{% endif %}
+          {% if latest.captured_at %}<div class="f"><span class="k">{{ _("Title checked") }}</span><span class="v tnum">{{ latest.captured_at }}</span></div>{% endif %}
+          {% if snapshots|length > 1 %}<div class="f"><span class="k">{{ _("Page versions seen") }}</span><span class="v tnum">{{ snapshots|length }}</span></div>{% endif %}
+        {% endif %}
+      </div>
+      {% if not latest %}<div class="panel-note" style="margin-top:14px">{% if lp.resolution_status == 'fetch_failed' %}{{ _("The worker couldn't open this page, so there's no title yet. It tries again in a day.") }}{% else %}{{ _("The page title appears after the worker opens this URL (right after the next collection run).") }}{% endif %}</div>{% endif %}
+    </section>
+
+    {% if snapshots|length > 1 %}
+    <section class="panel">
+      <div class="panel-head"><div class="lede"><div class="kick">{{ _("History") }}</div><h2>{{ _("How the page changed") }}</h2></div></div>
+      <div class="facts">
+        {% for s in snapshots %}
+        <div class="f"><span class="k tnum">{{ s.captured_at }}</span><span class="v">{{ s.headline or _("(no title)") }}</span></div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="panel">
+      <div class="panel-head">
+        <div class="lede"><div class="kick">{{ _("Traffic") }}</div><h2>{{ _("Ads driving to this page") }}</h2></div>
+      </div>
+      {% if ads %}
+      <div class="grid mode-grid" style="padding:6px 0 0">
+        {% for ad in ads %}
+        {% set c0 = ad.creatives[0] if ad.creatives else None %}
+        <a class="tile" href="/ads/{{ ad.ad_archive_id }}">
+          <div class="cr">
+            {% if c0 and (c0.thumbnail_url or c0.image_url) %}<img src="{{ c0.thumbnail_url or c0.image_url }}" loading="lazy" alt="" data-ph="{{ (ad.company_name or '?')[:2]|upper }}">{% else %}<div class="ph">{{ (ad.company_name or '?')[:2]|upper }}</div>{% endif %}
+            <div class="crmeta"><span class="co">{{ _("Active") if ad.is_active else _("Inactive") }}</span>{{ durpill(ad.duration_days or 0, True) }}</div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="panel-note">{{ _("No ads currently linked to this landing page.") }}</div>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

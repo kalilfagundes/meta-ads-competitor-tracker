@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Ads") }}{% endblock %}
+{% block body %}
+{% set nav_active = 'ads' %}
+{% set show_search = true %}
+{% include "_masthead.html" %}
+
+<main class="wrap">
+  {# ---- What's working (champions carousel) ---- #}
+  <div class="sect">
+    <div class="lede">
+      <div class="kick">{{ _("Champions") }}</div>
+      <h2>{{ _("What's working") }}</h2>
+      <div class="note" id="champ-note">{{ _("Each competitor's longest-running ads") }}</div>
+    </div>
+  </div>
+  <div class="champ-wrap">
+    <button class="carrow prev" id="champ-prev" type="button" aria-label="{{ _('Previous') }}">
+      <svg class="icon"><use href="#i-left"/></svg>
+    </button>
+    <div class="champs" id="champs"></div>
+    <button class="carrow next" id="champ-next" type="button" aria-label="{{ _('Next') }}">
+      <svg class="icon"><use href="#i-right"/></svg>
+    </button>
+  </div>
+
+  {# ---- The library (filtered grid) ---- #}
+  <div class="sect">
+    <div class="lede">
+      <div class="kick">{{ _("The library") }}</div>
+      <h2>{{ _("All ads") }} <span class="fig" id="count">0</span></h2>
+    </div>
+    <div class="viewtabs" id="view">
+      <button class="on" type="button" data-v="gallery">{{ _("Gallery") }}</button>
+      <button type="button" data-v="grid">{{ _("Grid") }}</button>
+      <button type="button" data-v="copy">{{ _("Ad copy") }}</button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filt">
+      <span class="l">{{ _("Company") }}</span>
+      <span class="selectish">
+        <select id="f-company"><option value="">{{ _("All") }}</option></select>
+        <svg class="icon"><use href="#i-down"/></svg>
+      </span>
+    </div>
+    <div class="filt">
+      <span class="l">{{ _("Media") }}</span>
+      <span class="seg" id="f-media">
+        <button class="on" type="button" data-v="">{{ _("All") }}</button>
+        <button type="button" data-v="image">{{ _("Image") }}</button>
+        <button type="button" data-v="video">{{ _("Video") }}</button>
+        <button type="button" data-v="carousel">{{ _("Carousel") }}</button>
+      </span>
+    </div>
+    <div class="filt">
+      <span class="l">{{ _("Status") }}</span>
+      <span class="seg" id="f-status">
+        <button class="on" type="button" data-v="active">{{ _("Active") }}</button>
+        <button type="button" data-v="inactive">{{ _("Inactive") }}</button>
+      </span>
+    </div>
+    <div class="filt">
+      <span class="l">{{ _("Duration") }}</span>
+      <span class="seg" id="f-dur">
+        <button class="on" type="button" data-v="">{{ _("Any") }}</button>
+        <button type="button" data-v="7">{{ _("%(days)sd+", days=7) }}</button>
+        <button type="button" data-v="14">{{ _("%(days)sd+", days=14) }}</button>
+        <button type="button" data-v="30">{{ _("%(days)sd+", days=30) }}</button>
+        <button type="button" data-v="90">{{ _("%(days)sd+", days=90) }}</button>
+      </span>
+      <input class="durinput" id="f-dur-custom" type="number" min="1" placeholder="{{ _('Xd+') }}" aria-label="{{ _('Custom minimum days running') }}">
+    </div>
+    <div class="filt" style="margin-left:auto">
+      <span class="l">{{ _("Sort") }}</span>
+      <span class="selectish">
+        <select id="sort">
+          <option value="dur">{{ _("Duration") }}</option>
+          <option value="rank">{{ _("Impression rank (per company, active)") }}</option>
+          <option value="new">{{ _("Newest") }}</option>
+        </select>
+        <svg class="icon"><use href="#i-down"/></svg>
+      </span>
+    </div>
+    <a class="exportbtn" id="export-csv" href="/ads.csv?status=active" title="{{ _('Download the ads matching these filters as a spreadsheet') }}">
+      <svg class="icon" style="width:14px;height:14px"><use href="#i-download"/></svg> {{ _("Export CSV") }}
+    </a>
+  </div>
+  <p class="filthint" id="rank-hint" hidden></p>
+
+  <div class="grid mode-gallery" id="grid"></div>
+
+  <nav class="pager" id="pager" hidden aria-label="{{ _('Pagination') }}">
+    <button class="pgbtn" id="pg-prev" type="button"><svg class="icon" style="width:15px;height:15px"><use href="#i-left"/></svg> {{ _("Prev") }}</button>
+    <span class="pginfo" id="pg-info"></span>
+    <button class="pgbtn" id="pg-next" type="button">{{ _("Next") }} <svg class="icon" style="width:15px;height:15px"><use href="#i-right"/></svg></button>
+  </nav>
+</main>
+
+<script>window.__LIBRARY__ = {{ data_json|safe }};</script>
+<script src="{{ static_url('js/app.js') }}" defer></script>
+{% endblock %}

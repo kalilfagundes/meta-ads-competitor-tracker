@@ -1,0 +1,49 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please **don't** include secrets (passwords, API keys, proxy credentials) in logs.
+        Security issues go through [private reporting](../security/advisories/new) instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to Settings
+        2. Add page ID ...
+        3. Click "Collect now"
+        4. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: e.g. `docker compose logs worker --tail 100` or `docker compose logs web --tail 100`
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      placeholder: v0.1.0 or a commit SHA
+  - type: dropdown
+    id: setup
+    attributes:
+      label: How are you running it?
+      options:
+        - docker compose (bundled Garage)
+        - docker compose + external S3 / R2
+        - Without Docker
+        - Other
+    validations:
+      required: true
