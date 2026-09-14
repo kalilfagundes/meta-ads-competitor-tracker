@@ -1,0 +1,28 @@
+{% extends "_setup_layout.html" %}
+{% set step = 2 %}
+{% block card %}
+<form method="POST" action="/setup/admin">
+  <h2>{{ _("Create administrator") }}</h2>
+  <div class="sub">{{ _("This account signs in to the tracker.") }}</div>
+  {% if error %}<div class="form-error">{{ _(error) }}</div>{% endif %}
+  <div class="field">
+    <label for="setup_code">{{ _("Setup code") }}</label>
+    <input id="setup_code" name="setup_code" autocomplete="off" spellcheck="false" required autofocus>
+    <div class="hint">{{ _("The setup script printed it, and saved it in .env as SETUP_TOKEN. Didn't set one? Find it in the web app's log: docker compose logs web") }}</div>
+  </div>
+  <div class="field">
+    <label for="username">{{ _("Username") }}</label>
+    <input id="username" name="username" value="{{ username }}" autocomplete="username" required>
+  </div>
+  <div class="field">
+    <label for="password">{{ _("Password") }}</label>
+    <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+    <div class="hint">{{ _("At least 8 characters.") }}</div>
+  </div>
+  <div class="field">
+    <label for="confirm">{{ _("Confirm password") }}</label>
+    <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">{{ _("Continue") }} <svg class="icon"><use href="#i-arrow"/></svg></button>
+</form>
+{% endblock %}

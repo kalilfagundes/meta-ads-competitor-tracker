@@ -1,0 +1,4 @@
+# Test/dev dependencies (not needed at runtime).
+#   pip install -r requirements.txt -r requirements-dev.txt
+-r requirements.txt
+pytest==9.1.1

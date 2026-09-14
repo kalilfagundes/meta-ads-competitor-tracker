@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Sign in") }}{% endblock %}
+{% block body %}
+<section class="login">
+  <aside class="login-aside">
+    <div class="login-lead">
+      <div class="kicker">{{ _("Meta Ad Library tracker") }}</div>
+      <h1>{{ _("See the ads your competitors <em>keep</em> running.") }}</h1>
+      <p>{{ _("Open source, self-hosted. Point it at any Facebook page and it collects that advertiser's Meta ads over time.") }}</p>
+    </div>
+    <div class="login-foot"><span>{{ _("Open source") }}</span><span>{{ _("Self-hosted") }}</span></div>
+  </aside>
+  <main class="login-main">
+    <form class="login-card" method="POST" action="/login">
+      <h2>{{ _("Sign in") }}</h2>
+      <div class="sub">{{ _("Enter your username and password.") }}</div>
+      {% if retry_minutes %}<div class="form-error">{{ ngettext("Too many failed attempts. Try again in %(num)s minute.", "Too many failed attempts. Try again in %(num)s minutes.", retry_minutes) }}</div>
+      {% elif show_error %}<div class="form-error">{{ _("Wrong username or password.") }}</div>{% endif %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <div class="field">
+        <label for="username">{{ _("Username") }}</label>
+        <input id="username" name="username" autocomplete="username" required autofocus>
+      </div>
+      <div class="field">
+        <label for="password">{{ _("Password") }}</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">{{ _("Sign in") }} <svg class="icon"><use href="#i-arrow"/></svg></button>
+    </form>
+  </main>
+</section>
+{% endblock %}

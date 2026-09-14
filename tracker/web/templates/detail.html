@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}{{ title or _("Ad") }} · {{ ad.company_name }}{% endblock %}
+{% block body %}
+{% set nav_active = 'ads' %}
+{% include "_masthead.html" %}
+{% set mono = (ad.company_name or "?")[:2]|upper %}
+{# An ad shown by its cards (carousel, dynamic creative, catalog) has one slide
+   per card, with the card's own text below; otherwise every format of the ad is a
+   slide, picked from the Formats strip. Media is shown uncropped, at its own ratio. #}
+{% set slides = ad.creatives if ad.is_carousel else ad.formats %}
+
+<div class="wrap">
+  <a class="back" href="/"><svg class="icon"><use href="#i-left"/></svg> {{ _("Back to ads") }}</a>
+
+  <div class="detail">
+    <div class="stagecol">
+      <div class="stage" id="stage">
+        {% for c in slides %}
+        <div class="cr slide{% if loop.first %} on{% endif %}">
+          {% if c.video_url %}
+            <video src="{{ c.video_url }}"{% if c.thumbnail_url %} poster="{{ c.thumbnail_url }}"{% endif %} controls playsinline preload="metadata"></video>
+          {% elif c.image_url or c.thumbnail_url %}
+            <img src="{{ c.image_url or c.thumbnail_url }}" alt="" data-ph="{{ mono }}">
+          {% else %}
+            <div class="ph">{{ mono }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+        {% if ad.is_carousel and slides|length > 1 %}
+          <button class="snav prev" type="button" data-nav="-1" aria-label="{{ _('Previous creative') }}"><svg class="icon"><use href="#i-left"/></svg></button>
+          <button class="snav next" type="button" data-nav="1" aria-label="{{ _('Next creative') }}"><svg class="icon"><use href="#i-right"/></svg></button>
+          <div class="dots">{% for c in slides %}<i{% if loop.first %} class="on"{% endif %}></i>{% endfor %}</div>
+        {% endif %}
+      </div>
+
+      {% if ad.is_carousel %}
+      <div class="cardinfos">
+        {% for c in slides %}
+        <div class="cardinfo{% if loop.first %} on{% endif %}">
+          <div class="ci-n">{{ _("Card %(n)s of %(total)s", n=loop.index, total=slides|length) }}</div>
+          {% if c.title %}<div class="ci-title">{{ c.title }}</div>{% endif %}
+          {% if c.description and c.description != c.title %}<div class="ci-desc">{{ c.description }}</div>{% endif %}
+          {% if c.body and c.body != body %}<p class="ci-body">{{ c.body }}</p>{% endif %}
+          {% if c.caption or c.cta_text or c.link_url %}
+          <div class="ci-foot">
+            <span class="ci-cap">{{ c.caption }}</span>
+            <span class="ci-act">
+              {% if c.cta_text %}<span class="tag">{{ c.cta_text }}</span>{% endif %}
+              {% if c.link_url|safe_href %}<a class="dest-out" href="{{ c.link_url|safe_href }}" target="_blank" rel="noopener noreferrer" title="{{ _('Open the page') }}" aria-label="{{ _('Open the page') }}"><svg class="icon"><use href="#i-out"/></svg></a>{% endif %}
+            </span>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if not ad.is_carousel and slides|length > 1 %}
+      <div class="formats">
+        <div class="fhead"><span class="lblm">{{ _("Formats") }}</span><span class="fnote">{{ _("Same ad in %(n)s formats", n=slides|length) }}</span></div>
+        <div class="fthumbs">
+          {% for c in slides %}
+          <button type="button" class="fthumb{% if loop.first %} on{% endif %}" data-fmt="{{ loop.index0 }}" aria-label="{{ _('Show format %(n)s', n=loop.index) }}">
+            <span class="cr fbox">
+              {% if c.thumbnail_url or c.image_url %}<img src="{{ c.thumbnail_url or c.image_url }}" alt="" data-ph="{{ mono }}">{% else %}<span class="ph">{{ mono }}</span>{% endif %}
+            </span>
+            <span class="fmeta">&nbsp;</span>
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    {# ---- facts + copy ---- #}
+    <div>
+      <div class="pagehead">
+        <span class="pav">{% if ad.page.avatar_url %}<img src="{{ ad.page.avatar_url }}" alt="" data-ph="{{ mono }}">{% else %}<span class="ph">{{ mono }}</span>{% endif %}</span>
+        <div>
+          <div class="pname">{% if ad.page.profile_uri|safe_href %}<a href="{{ ad.page.profile_uri|safe_href }}" target="_blank" rel="noopener noreferrer">{{ ad.page.name or ad.company_name }}</a>{% else %}{{ ad.page.name or ad.company_name }}{% endif %}</div>
+          {% if likes_label or ad.page.categories %}
+          <div class="psub">{% if likes_label %}{{ _("%(likes)s likes", likes=likes_label) }}{% endif %}{% if likes_label and ad.page.categories %} · {% endif %}{{ ad.page.categories|join(", ") }}</div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="co">
+        {{ ad.company_name }} <span>·</span> {{ _("Active") if ad.is_active else _("Inactive") }}
+        {% if ad.is_active and ad.sort_index == 0 %}
+        <span class="rankflag" title="{{ _("Most impressions among %(company)s's active ads", company=ad.company_name) }}"><svg class="icon fill" style="width:11px;height:11px;color:var(--accent)"><use href="#i-bolt"/></svg> {{ _("Top ad") }}</span>
+        {% endif %}
+      </div>
+      <h1>{{ title or _("Untitled ad") }}</h1>
+      <div style="margin-bottom:20px"><span class="pill t-{{ tier_class }}"><span class="d">{{ _("%(days)sd", days=ad.duration_days) }}</span> · {{ _(tier_label) }}</span></div>
+
+      {% if body %}
+      <div class="copyblock">
+        <div class="lbl">{{ _("Primary text") }}</div>
+        <p>{{ body }}</p>
+        <button class="copybtn" type="button" data-copy="{{ body }}" data-copied="{{ _('Copied') }}"><svg class="icon" style="width:14px;height:14px"><use href="#i-copy"/></svg> {{ _("Copy") }}</button>
+      </div>
+      {% endif %}
+
+      {% if ad.destinations %}
+      <div class="copyblock dests">
+        <div class="lbl">{{ ngettext("Destination", "Destinations", ad.destinations|length) }}</div>
+        {% for d in ad.destinations %}
+        <div class="dest">
+          {% if d.landing_page_id %}
+          <a class="dest-lp" href="/landing-pages/{{ d.landing_page_id }}" title="{{ _('View landing page') }}">{{ d.display_url }} <svg class="icon"><use href="#i-right"/></svg></a>
+          {% else %}
+          <span class="dest-lp">{{ d.display_url }}</span>
+          {% endif %}
+          {% if d.url|safe_href %}<a class="dest-out" href="{{ d.url|safe_href }}" target="_blank" rel="noopener noreferrer" title="{{ _('Open the page') }}" aria-label="{{ _('Open the page') }}"><svg class="icon"><use href="#i-out"/></svg></a>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="facts">
+        <div class="f"><span class="k">{{ _("Running for") }}</span><span class="v tnum">{{ ngettext("%(num)s day", "%(num)s days", ad.duration_days) }}</span></div>
+        {% if cta %}<div class="f"><span class="k">{{ _("Call to action") }}</span><span class="v">{{ cta }}</span></div>{% endif %}
+        <div class="f"><span class="k">{{ _("Platforms") }}</span><span class="v">{{ platforms_label or "—" }}</span></div>
+        <div class="f"><span class="k">{{ _("Media") }}</span><span class="v">{{ {"image": _("Image"), "video": _("Video"), "carousel": _("Carousel"), "catalog": _("Catalog"), "dynamic": _("Dynamic creative")}[ad.kind] }}{% if ad.is_carousel %} · {{ ngettext("%(num)s card", "%(num)s cards", ad.creatives|length) }}{% elif ad.formats|length > 1 %} · {{ ngettext("%(num)s format", "%(num)s formats", ad.formats|length) }}{% endif %}</span></div>
+        {% if ad.is_active and ad.sort_index is not none %}<div class="f"><span class="k">{{ _("Impression rank") }}</span><span class="v tnum">{{ _("#%(rank)s among %(company)s's active ads", rank=ad.sort_index + 1, company=ad.company_name) }}</span></div>{% endif %}
+        {% if ad.first_seen %}<div class="f"><span class="k">{{ _("First seen") }}</span><span class="v tnum">{{ ad.first_seen }}</span></div>{% endif %}
+        {% if not ad.is_active and ad.last_seen %}<div class="f"><span class="k">{{ _("Last seen active") }}</span><span class="v tnum">{{ ad.last_seen }}</span></div>{% endif %}
+        <div class="f"><span class="k">{{ _("Ad ID") }}</span><span class="v tnum mono">{{ ad.ad_archive_id }}</span></div>
+      </div>
+
+      {% if ad.versions %}
+      <div class="versions">
+        <div class="fhead">
+          <span class="lblm">{{ _("Other versions") }}</span>
+          <span class="fnote">{{ _("Meta groups %(n)s ads as versions of this one", n=ad.versions|length + 1) }}{% if ad.collation_count and ad.collation_count > ad.versions|length + 1 %} {{ _("(%(reported)s reported, %(tracked)s tracked)", reported=ad.collation_count, tracked=ad.versions|length + 1) }}{% endif %}</span>
+        </div>
+        <div class="vlist">
+          {% for v in ad.versions %}
+          <a class="vitem" href="/ads/{{ v.ad_archive_id }}">
+            <span class="cr vthumb">{% if v.thumb_url %}<img src="{{ v.thumb_url }}" alt="" loading="lazy" data-ph="{{ mono }}">{% else %}<span class="ph">{{ mono }}</span>{% endif %}</span>
+            <span class="vid">{{ v.ad_archive_id }}</span>
+            <span class="vsub">{{ _("%(days)sd", days=v.duration_days) }} · {{ _("Active") if v.is_active else _("Inactive") }} <svg class="icon" style="width:14px;height:14px"><use href="#i-right"/></svg></span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="cta-row">
+        {% if ad.snapshot_url|safe_href %}
+        <a class="btn btn-primary" style="width:auto" href="{{ ad.snapshot_url|safe_href }}" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-out"/></svg> {{ _("Meta Ad Library") }}</a>
+        {% endif %}
+        <a class="btn btn-ghost" href="/?company={{ ad.company_name|urlencode }}"><svg class="icon"><use href="#i-layers"/></svg> {{ _("More from %(company)s", company=ad.company_name) }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // Aspect-ratio label from the media's real pixel size ("9:16 · 338×600").
+  var KNOWN = [[9 / 16, "9:16"], [2 / 3, "2:3"], [4 / 5, "4:5"], [1, "1:1"], [4 / 3, "4:3"], [16 / 9, "16:9"], [1.91, "1.91:1"]];
+  function ratioLabel(w, h) {
+    var r = w / h, best = null;
+    KNOWN.forEach(function (k) { if (Math.abs(r - k[0]) / k[0] < 0.03) best = k[1]; });
+    return (best ? best + " · " : "") + w + "×" + h;
+  }
+
+  var stage = document.getElementById("stage");
+  if (stage) {
+    var slides = [].slice.call(stage.querySelectorAll(".slide"));
+    var dots = [].slice.call(stage.querySelectorAll(".dots i"));
+    var thumbs = [].slice.call(document.querySelectorAll(".fthumb"));
+    var infos = [].slice.call(document.querySelectorAll(".cardinfo"));
+    var i = 0;
+    var show = function (n) {
+      if (!slides.length) return;
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        s.classList.toggle("on", k === i);
+        var v = s.querySelector("video");
+        if (v && k !== i) v.pause();
+      });
+      dots.forEach(function (d, k) { d.classList.toggle("on", k === i); });
+      infos.forEach(function (c, k) { c.classList.toggle("on", k === i); });
+      thumbs.forEach(function (t, k) { t.classList.toggle("on", k === i); });
+    };
+    stage.querySelectorAll("[data-nav]").forEach(function (btn) {
+      btn.addEventListener("click", function () { show(i + parseInt(btn.dataset.nav, 10)); });
+    });
+    dots.forEach(function (d, k) { d.addEventListener("click", function () { show(k); }); });
+    thumbs.forEach(function (t, k) {
+      t.addEventListener("click", function () { show(k); });
+      var img = t.querySelector("img"), meta = t.querySelector(".fmeta");
+      if (!img || !meta) return;
+      var label = function () { if (img.naturalWidth) meta.textContent = ratioLabel(img.naturalWidth, img.naturalHeight); };
+      if (img.complete) label(); else img.addEventListener("load", label);
+    });
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var t = btn.getAttribute("data-copy") || "";
+      if (navigator.clipboard) navigator.clipboard.writeText(t).catch(function () {});
+      var html = btn.innerHTML;
+      btn.textContent = btn.getAttribute("data-copied") || "Copied";
+      setTimeout(function () { btn.innerHTML = html; }, 1200);
+    });
+  });
+})();
+</script>
+{% endblock %}

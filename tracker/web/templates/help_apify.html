@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Collect through Apify") }}{% endblock %}
+{% block body %}
+{# Opened from the setup wizard and Settings (new tab), signed in or not. #}
+<main class="wrap helppage">
+  <div class="page-head">
+    <div class="kick">{{ _("Help") }}</div>
+    <h1>{{ _("Collect through Apify") }}</h1>
+    <p class="lede-text">{{ _("Meta blocks many server IPs, so reading the Ad Library from your own server can fail. Apify reads it for you through residential proxies, and costs very little.") }}</p>
+  </div>
+
+  <div class="stack">
+    <section class="panel">
+      <div class="kick">{{ _("Step by step") }}</div>
+      <h2>{{ _("Get your Apify API token") }}</h2>
+      <ol class="helpsteps">
+        <li>
+          <b>{{ _("Create a free Apify account.") }}</b>
+          {{ _("No credit card needed. You can sign up with Google, GitHub or an email address.") }}
+          <a href="{{ signup_url }}" target="_blank" rel="noopener noreferrer">{{ _("Create the account") }} <svg class="icon"><use href="#i-out"/></svg></a>
+        </li>
+        <li>
+          <b>{{ _("Open Settings → API & Integrations in Apify Console.") }}</b>
+          <a href="{{ token_url }}" target="_blank" rel="noopener noreferrer">{{ _("Open API & Integrations") }} <svg class="icon"><use href="#i-out"/></svg></a>
+        </li>
+        <li>
+          <b>{{ _("Copy your Personal API token.") }}</b>
+          {{ _("It starts with apify_api_. Treat it like a password: anyone with it can use your Apify account.") }}
+        </li>
+        <li>
+          <b>{{ _("Paste it here and press Test token.") }}</b>
+          {{ _("In the setup wizard's Collection step, or later in Settings → Where ads are read from. It should answer with your Apify username.") }}
+        </li>
+      </ol>
+      <p class="hint">{{ _("You don't need to open or configure the Actor on Apify: the tracker starts it by itself on each collection.") }}</p>
+    </section>
+
+    <section class="panel">
+      <div class="kick">{{ _("Pricing") }}</div>
+      <h2>{{ _("How much it costs") }}</h2>
+      <div class="pricegrid">
+        <div class="price"><span class="pv">US$ {{ price_1000 }}</span><span class="pk">{{ _("per 1,000 ads collected") }}</span></div>
+        <div class="price"><span class="pv">US$ {{ run_start }}</span><span class="pk">{{ _("per Actor run (each reads up to 5 pages)") }}</span></div>
+        <div class="price free"><span class="pv">US$ {{ free_credit }}</span><span class="pk">{{ _("free every month on Apify's free plan") }}</span></div>
+      </div>
+      <p>{{ _("Apify's free plan gives US$ %(credit)s of usage every month, with no credit card. That's about %(ads)s ads a month at no cost. Unused credit doesn't carry over to the next month.", credit=free_credit, ads=free_ads) }}</p>
+
+      <h3>{{ _("An example") }}</h3>
+      <p>{{ _("%(pages)s competitors with about %(per_page)s active ads each: one collection reads about %(ads)s ads and costs about US$ %(cost)s.", pages=example_pages, per_page=(example_ads // example_pages), ads=example_ads, cost=per_run) }}</p>
+      <table class="adtable pricetable">
+        <thead><tr><th>{{ _("Collecting") }}</th><th>{{ _("About per month") }}</th></tr></thead>
+        <tbody>
+          <tr><td>{{ _("Once a day") }}</td><td class="mono">US$ {{ daily_month }} <span class="muted">· {{ _("within the free credit") }}</span></td></tr>
+          <tr><td>{{ ngettext("Every hour", "Every %(num)s hours", 6) }}</td><td class="mono">US$ {{ six_hours_month }}</td></tr>
+        </tbody>
+      </table>
+      <p class="hint">{{ _("Each collection reads every active ad of your competitors again, so the cost grows with how many ads they run and how often you collect. Settings shows what Apify charged for every collection.") }}
+        {{ _("Prices are the Actor's, on Apify's free plan (paid plans pay less), and may change:") }}
+        <a href="{{ actor_url }}" target="_blank" rel="noopener noreferrer">{{ _("see the Actor's page") }}</a>.</p>
+    </section>
+  </div>
+</main>
+{% endblock %}

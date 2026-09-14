@@ -1,0 +1,12 @@
+{# Country picker, names in the interface language. Needs `countries` [(code, name)]
+   and `country` (the selected ISO-2 code, or none). Optional: `select_id`,
+   `select_name`, `select_class`, and `default_label`, which adds a first option
+   with an empty value (a Page then uses the default country). #}
+<select id="{{ select_id or 't-country' }}" name="{{ select_name or 'country' }}"{% if select_class %} class="{{ select_class }}"{% endif %}>
+  {%- if default_label %}
+  <option value=""{% if not country %} selected{% endif %}>{{ default_label }}</option>
+  {%- endif %}
+  {%- for code, name in countries %}
+  <option value="{{ code }}"{% if code == country %} selected{% endif %}>{{ name }} ({{ code }})</option>
+  {%- endfor %}
+</select>

@@ -1,0 +1,150 @@
+# meta-ads-competitor-tracker — full stack.
+#
+#   ./setup.sh          (Linux / macOS)   or   .\setup.ps1   (Windows)
+#   docker compose up -d
+#
+# The setup script writes .env (see .env.example): passwords, and whether media and
+# the database use the bundled Garage / Postgres or your own. Everything else is set
+# in the browser, in the first-run wizard.
+#
+# Passwords reach the containers as compose secrets, mounted read-only under
+# /run/secrets and only in the services that need them.
+
+# Stops `docker compose` with a clear message when .env is missing.
+x-configured: ${S3_BUCKET:?Missing .env - run ./setup.sh (or .\setup.ps1 on Windows) first}
+
+x-app-env: &app-env
+  # POSTGRES_HOST=postgres is the bundled database (COMPOSE_PROFILES includes "postgres").
+  POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
+  POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+  POSTGRES_SSLMODE: ${POSTGRES_SSLMODE:-}
+  POSTGRES_USER: ${POSTGRES_USER:-tracker}
+  POSTGRES_DB: ${POSTGRES_DB:-tracker}
+  POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+  SESSION_SECRET_FILE: /run/secrets/session_secret
+  S3_ENDPOINT: ${S3_ENDPOINT:-}
+  S3_BUCKET: ${S3_BUCKET}
+  S3_REGION: ${S3_REGION:-auto}
+  S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
+  S3_SECRET_ACCESS_KEY_FILE: /run/secrets/s3_secret_access_key
+  S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+
+secrets:
+  postgres_password:
+    environment: POSTGRES_PASSWORD
+  s3_secret_access_key:
+    environment: S3_SECRET_ACCESS_KEY
+  session_secret:
+    environment: SESSION_SECRET
+  garage_rpc_secret:
+    environment: GARAGE_RPC_SECRET
+  garage_admin_token:
+    environment: GARAGE_ADMIN_TOKEN
+
+services:
+  postgres:
+    image: postgres:16
+    profiles: [postgres]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tracker}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: ${POSTGRES_DB:-tracker}
+    secrets: [postgres_password]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tracker} -d ${POSTGRES_DB:-tracker}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  # S3-compatible media storage (garage.toml). Not published: only the containers reach it.
+  garage:
+    image: dxflrs/garage:v2.4.1
+    profiles: [garage]
+    environment:
+      GARAGE_RPC_SECRET_FILE: /run/secrets/garage_rpc_secret
+      GARAGE_ADMIN_TOKEN_FILE: /run/secrets/garage_admin_token
+    secrets:
+      # Garage refuses secret files that other users can read.
+      - {source: garage_rpc_secret, mode: 0400}
+      - {source: garage_admin_token, mode: 0400}
+    volumes:
+      - ./garage.toml:/etc/garage.toml:ro
+      - garage-meta:/var/lib/garage/meta
+      - garage-data:/var/lib/garage/data
+    restart: unless-stopped
+
+  # Gives the Garage node its role and creates the access key and bucket, then exits.
+  garage-init:
+    build: .
+    profiles: [garage]
+    command: ["python", "-m", "tracker.garage_init"]
+    environment:
+      S3_BUCKET: ${S3_BUCKET}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
+      S3_SECRET_ACCESS_KEY_FILE: /run/secrets/s3_secret_access_key
+      GARAGE_ADMIN_URL: http://garage:3903
+      GARAGE_ADMIN_TOKEN_FILE: /run/secrets/garage_admin_token
+    secrets: [s3_secret_access_key, garage_admin_token]
+    depends_on:
+      garage:
+        condition: service_started
+    restart: "no"
+
+  # Applies migrations + ensures the bucket, then exits. web/worker wait for this to finish.
+  migrate:
+    build: .
+    command: ["python", "-m", "tracker.bootstrap"]
+    environment: *app-env
+    secrets: [postgres_password, s3_secret_access_key]
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: false   # not started when POSTGRES_HOST points elsewhere
+      garage-init:
+        condition: service_completed_successfully
+        required: false   # not started when media goes to an external S3
+    restart: "no"
+
+  web:
+    build: .
+    command: ["uvicorn", "tracker.web.app:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      <<: *app-env
+      # Proxies whose X-Forwarded-For/-Proto headers are believed (the Dockerfile explains
+      # the default; see .env.example to change it).
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fc00::/7}
+      # One-time code asked when creating the admin; useless once one exists, so a plain
+      # variable (empty: the web app generates one and logs it).
+      SETUP_TOKEN: ${SETUP_TOKEN:-}
+    secrets: [postgres_password, s3_secret_access_key, session_secret]
+    ports:
+      - "${WEB_PORT:-8000}:8000"
+    # Healthy once the app answers HTTP (the image has no curl).
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/robots.txt', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  worker:
+    build: .
+    command: ["python", "-m", "tracker.worker.scheduler"]
+    environment: *app-env
+    secrets: [postgres_password, s3_secret_access_key]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  garage-meta:
+  garage-data:

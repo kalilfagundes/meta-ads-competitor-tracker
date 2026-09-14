@@ -1,0 +1,21 @@
+{% extends "_setup_layout.html" %}
+{% set step = 1 %}
+{% block card %}
+<form method="POST" action="/setup/language" id="language-form">
+  <h2>{{ _("Is this your language?") }}</h2>
+  <div class="sub">{{ _("We picked it from your browser. Choose another one if it's wrong; you can change it later in Settings.") }}</div>
+  {% for code, name in languages.items() %}
+  <label class="choice">
+    <input type="radio" name="language" value="{{ code }}"{% if code == lang %} checked{% endif %}>
+    <span><b lang="{{ code }}">{{ name }}</b></span>
+  </label>
+  {% endfor %}
+  <button class="btn btn-primary btn-block" type="submit" style="margin-top:10px">{{ _("Continue") }} <svg class="icon"><use href="#i-arrow"/></svg></button>
+</form>
+<script>
+/* Show the wizard in the language as soon as it's picked. */
+document.getElementById("language-form").addEventListener("change", function (e) {
+  if (e.target.name === "language") location.href = "/setup?lang=" + encodeURIComponent(e.target.value);
+});
+</script>
+{% endblock %}

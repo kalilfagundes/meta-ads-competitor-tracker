@@ -1,0 +1,13 @@
+{# Shared Jinja macros. Import them `with context` so they can translate. #}
+
+{# Duration-tier pill on the sequential ramp (New/Testing/Winner/Gold/Evergreen).
+   `dark` uses the on-dark variant for overlays on top of a creative. Mirrors
+   tier() in static/js/app.js and _tier() in web/deps.py. #}
+{% macro durpill(d, dark=False) %}
+{%- if d >= 90 %}{% set t = 'ever' %}{% set l = _('Evergreen') %}
+{%- elif d >= 60 %}{% set t = 'gold' %}{% set l = _('Gold') %}
+{%- elif d >= 30 %}{% set t = 'win' %}{% set l = _('Winner') %}
+{%- elif d >= 8 %}{% set t = 'test' %}{% set l = _('Testing') %}
+{%- else %}{% set t = 'new' %}{% set l = _('New') %}{% endif -%}
+<span class="pill t-{{ t }}{% if dark %} ondark{% endif %}"><span class="d">{{ _('%(days)sd', days=d) }}</span> · {{ l }}</span>
+{%- endmacro %}

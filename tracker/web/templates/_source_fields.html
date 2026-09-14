@@ -1,0 +1,39 @@
+{# The Collection source choice and the Apify source's fields, inside a form, for
+   Settings and the setup wizard. Expects: source, token_mask; with
+   show_parallel: parallel, max_parallel_runs. field_class / label_class /
+   input_class adapt it to the surrounding form's styles. Driven by
+   static/js/apify.js. #}
+<div data-source-pick>
+  {# Apify first: it's the recommended one #}
+  <label class="choice">
+    <input type="radio" name="collect_source" value="apify"{% if source != "self_hosted" %} checked{% endif %}>
+    <span><b>Apify <span class="rec">{{ _("Recommended") }}</span></b><span class="choice-desc">{{ _("An Apify Actor reads it through residential proxies, so it works from any server. Apify charges your account per ad collected.") }}</span>
+      <span class="choice-cost">{{ _("About US$ %(price)s per 1,000 ads. Apify's free plan includes US$ %(credit)s a month.", price=apify_price_1000, credit=apify_free_credit) }}
+        <a href="/help/apify" target="_blank" rel="noopener">{{ _("How to get a token and what it costs") }} <svg class="icon"><use href="#i-out"/></svg></a></span></span>
+  </label>
+  <label class="choice">
+    <input type="radio" name="collect_source" value="self_hosted"{% if source == "self_hosted" %} checked{% endif %}>
+    <span><b>{{ _("Self-hosted") }}</b><span class="choice-desc">{{ _("This server reads the Ad Library itself, from its own IP or through your proxies. Free, but Meta may block datacenter IPs.") }}</span></span>
+  </label>
+
+  <div class="apify-fields" data-apify-fields{% if source == "self_hosted" %} hidden{% endif %}>
+    <div class="{{ field_class }}">
+      <label class="{{ label_class }}" for="apify-token">{{ _("Apify API token") }}</label>
+      <div class="apify-token-row">
+        <input class="{{ input_class }}" id="apify-token" name="apify_token" type="password" autocomplete="off" spellcheck="false"
+               placeholder="{{ token_mask or 'apify_api_…' }}">
+        <button class="btn btn-ghost btn-sm" type="button" data-apify-test>{{ _("Test token") }}</button>
+      </div>
+      <div class="hint"><span data-apify-result aria-live="polite"></span>
+        {{ _("In Apify Console: Settings → API & Integrations.") }}
+        <a href="/help/apify" target="_blank" rel="noopener">{{ _("Step by step") }}</a>{% if token_mask %} {{ _("Leave it empty to keep the saved token.") }}{% endif %}</div>
+    </div>
+    {% if show_parallel %}
+    <div class="{{ field_class }}">
+      <label class="{{ label_class }}" for="apify-parallel">{{ _("Simultaneous Actor runs") }}</label>
+      <input class="{{ input_class }}" id="apify-parallel" name="apify_max_parallel_runs" type="number" min="1" max="{{ max_parallel_runs }}" value="{{ parallel }}">
+      <div class="hint">{{ _("Each Actor run reads up to 5 pages. Apify's free plan allows at most 5 runs at the same time, and the runs used here block your other Actors while a collection is going on.") }}</div>
+    </div>
+    {% endif %}
+  </div>
+</div>
