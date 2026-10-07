@@ -5,16 +5,16 @@
 
 # Database: schema migrations + driver
 alembic==1.20.0
-SQLAlchemy==2.0.53
-psycopg[binary]==3.3.5
-python-dotenv==1.2.3
+SQLAlchemy==2.1.3
+psycopg[binary]==3.3.6
+python-dotenv==1.2.4
 
 # Object storage (any S3-compatible endpoint: Garage / AWS S3 / Cloudflare R2 / …)
-boto3==1.43.94
+boto3==1.43.108
 
 # Web app
-fastapi==0.141.1
-uvicorn[standard]==0.53.0
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
 jinja2==3.1.6
 python-multipart==0.0.32
 httpx==0.28.1
