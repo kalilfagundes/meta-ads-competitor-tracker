@@ -27,4 +27,4 @@ Babel==2.18.0
 meta-ads-collector==1.6.0
 
 # Image compression (the worker mirrors creatives as resized WebP).
-Pillow==12.3.0
+Pillow==13.0.0
