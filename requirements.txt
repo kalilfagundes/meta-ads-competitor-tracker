@@ -24,7 +24,7 @@ Babel==2.18.0
 # Scraping worker. Needs 1.4.0 or newer: the first PyPI release with the async
 # collector + ProxyPool (async_collector/proxy_pool submodules). Pulls in curl_cffi
 # transitively.
-meta-ads-collector==1.6.0
+meta-ads-collector==1.7.0
 
 # Image compression (the worker mirrors creatives as resized WebP).
 Pillow==12.3.0
