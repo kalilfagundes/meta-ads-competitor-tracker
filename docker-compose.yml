@@ -60,7 +60,7 @@ services:
 
   # S3-compatible media storage (garage.toml). Not published: only the containers reach it.
   garage:
-    image: dxflrs/garage:v2.4.1
+    image: dxflrs/garage:v2.5.0
     profiles: [garage]
     # Variables rather than *_FILE, as for Postgres: Garage also refuses a secret set both ways.
     environment:
